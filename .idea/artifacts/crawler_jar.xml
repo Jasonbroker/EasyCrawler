@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact name="crawler:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/crawler_jar</output-path>
+    <root id="root">
+      <element id="archive" name="crawler.jar">
+        <element id="module-output" name="crawler" />
+      </element>
+      <element id="directory" name="libs">
+        <element id="dir-copy" path="$PROJECT_DIR$/libs" />
+      </element>
+    </root>
+  </artifact>
+</component>
