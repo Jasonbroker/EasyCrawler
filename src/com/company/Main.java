@@ -1,19 +1,20 @@
 package com.company;
 
+import jdk.nashorn.internal.ir.IfNode;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
-import us.codecraft.webmagic.selector.thread.CountableThreadPool;
+import us.codecraft.webmagic.selector.Selectable;
 import us.codecraft.webmagic.utils.FilePersistentBase;
 
 import javax.swing.filechooser.FileSystemView;
 import java.io.*;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Scanner;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
 
@@ -63,6 +64,20 @@ public class Main {
         }else {
             spider.addPipeline(new PendingPipline(file.getAbsolutePath(), false));
         }
+
+        System.out.println("如果存在特殊字符不要忘记更改配置文件。");
+
+        String path = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath()+ "config.con";
+        String ats = Main.readFileByLines(path);
+        System.out.println("读取配置文件路径…………"+path);
+
+        if (ats.length()>0) {
+            String[] str = ats.split(",");
+            pageProcessor.operators = str;
+        }else {
+            System.out.println("配置文件未读取!!!!!!!!!!...");
+        }
+
         System.out.println("开启10个线程批量抓取email...网速快的话一分钟能抓100个email 地址……");
         System.out.println("开始批量抓取email...");
 
@@ -71,17 +86,49 @@ public class Main {
 
 
     }
+
+    public static String readFileByLines(String fileName) {
+        File file = new File(fileName);
+        BufferedReader reader = null;
+        String str = "";
+        try {
+            System.out.println("以行为单位读取文件内容，一次读一整行：");
+            reader = new BufferedReader(new FileReader(file));
+            String tempString = null;
+            int line = 1;
+            // 一次读入一行，直到读入null为文件结束
+            while ((tempString = reader.readLine()) != null) {
+                // 显示行号
+                str += tempString;
+                line++;
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e1) {
+                }
+            }
+        }
+        return str;
+    }
 }
+
+
+
 
 class GithubRepoPageProcessor implements PageProcessor {
 
     private Site site = Site.me().setRetryTimes(3).setSleepTime(100).setTimeOut(60000);
     private String regString = null;
     public boolean strict = false;
+    public String[] operators;
     public int depth = 0;
     GithubRepoPageProcessor(boolean strict) {
         this.strict = strict;
-
     }
 
     @Override
@@ -94,8 +141,47 @@ class GithubRepoPageProcessor implements PageProcessor {
         }
 
         System.out.println("depth: " + depth);
+        String emailRex = "[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
 
-        page.putField("email", page.getHtml().regex("[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*(@|(at)|\\[at\\])(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?"));
+        Selectable selectablem = null;
+        if (operators.length>0){
+            String atRegex = "";
+            for (int i = 0; i < operators.length; i++) {
+                atRegex += "(" + operators[i] + ")";
+                if ( i != operators.length-1) {
+                    atRegex += "|";
+                }
+            }
+           selectablem = page.getHtml().replace(atRegex, "@");
+        } else {
+            selectablem = page.getHtml();
+        }
+//        String emailRex = "/[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?/";
+
+
+//System.out.print(selectablem);
+//        page.putField("email", page.getHtml().regex(emailRex));
+//        String str = page.getHtml().replace("\\s\\*\\s|\\s\\*&nbsp;", "@").toString();
+
+        Pattern p = Pattern.compile(emailRex);
+        Matcher m = p.matcher(selectablem.toString());
+        String resultEmails = "";
+
+        int count = 0;
+        HashSet set = new HashSet();
+        while (m.find()) {
+            if (count > 0) {
+                resultEmails += "\n,";
+            }
+            count++;
+            String str = m.group();
+            if (!set.contains(str)) {
+                resultEmails += m.group();
+            }
+        }
+
+        page.putField("email", resultEmails);
+
         if (page.getResultItems().get("email") == null) {
             //skip this page
             page.getResultItems().setSkip(true);
