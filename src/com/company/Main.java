@@ -1,6 +1,7 @@
 package com.company;
 
 import jdk.nashorn.internal.ir.IfNode;
+import org.apache.commons.lang3.StringUtils;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
@@ -146,10 +147,14 @@ class GithubRepoPageProcessor implements PageProcessor {
         Selectable selectablem = null;
         if (operators.length>0){
             String atRegex = "";
-            for (int i = 0; i < operators.length; i++) {
-                atRegex += "(" + operators[i] + ")";
-                if ( i != operators.length-1) {
-                    atRegex += "|";
+            if (operators.length == 1) {
+                atRegex = escapeExprSpecialWord(operators[0]);
+            }else {
+                for (int i = 0; i < operators.length; i++) {
+                    atRegex += "(" + operators[i] + ")";
+                    if (i != operators.length - 1) {
+                        atRegex += "|";
+                    }
                 }
             }
            selectablem = page.getHtml().replace(atRegex, "@");
@@ -225,6 +230,17 @@ class GithubRepoPageProcessor implements PageProcessor {
 //        page.addTargetRequests(page.getHtml().links().regex("(https://github\\.com/\\w+/\\w+)").all());
     }
 
+    public static String escapeExprSpecialWord(String keyword) {
+        if (StringUtils.isNotBlank(keyword)) {
+            String[] fbsArr = { "\\", "$", "(", ")", "*", "+", ".", "[", "]", "?", "^", "{", "}", "|" };
+            for (String key : fbsArr) {
+                if (keyword.contains(key)) {
+                    keyword = keyword.replace(key, "\\" + key);
+                }
+            }
+        }
+        return keyword;
+    }
 
 
     @Override
