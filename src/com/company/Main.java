@@ -1,6 +1,5 @@
 package com.company;
 
-import jdk.nashorn.internal.ir.IfNode;
 import org.apache.commons.lang3.StringUtils;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
@@ -12,7 +11,6 @@ import us.codecraft.webmagic.utils.FilePersistentBase;
 
 import javax.swing.filechooser.FileSystemView;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
