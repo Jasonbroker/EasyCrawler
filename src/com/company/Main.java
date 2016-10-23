@@ -1,5 +1,7 @@
 package com.company;
 
+import org.apache.commons.codec.binary.StringUtils;
+import org.jsoup.helper.StringUtil;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.utils.FilePersistentBase;
 
@@ -22,19 +24,31 @@ public class Main {
         Spider spider;
 
         if (entry.equals("1")) {
-//            System.out.println("功能正在开发中,请期待0.0.5版本!");
+
             System.out.println("请输入要查询的邮箱的主站地址,以http开头, 回车继续:");
 
             String url = s.nextLine().trim();
             while (url.isEmpty()) {
 
-                System.out.println("请输入要查询的邮箱的主站地址, 以http开头, 回车继续:");
+                System.out.println("请输入要查询的邮箱的主站地址, 以http开头, 回车确认:");
                 url = s.nextLine().trim();
             }
 
-            ArrayList arrayList = new ArrayList(3);
-            arrayList.add("chem");
-            arrayList.add("research");
+            System.out.println("请输入需要查询的关键词,用英文隔开, 回车确认:");
+
+            String keywordsStr = s.nextLine().trim();
+            ArrayList arrayList = new ArrayList();
+            if (keywordsStr.length()>0) {
+                String[] stringsArr = keywordsStr.split(",");
+                for (String string : stringsArr) {
+                    if (StringUtil.isBlank(string)) {
+                        continue;
+                    }
+                    arrayList.add(string.trim());
+                }
+            }else {
+                System.out.println("输入错误");
+            }
 
             KeywordFindingPageProcessor pageProcessor = new KeywordFindingPageProcessor(arrayList);
             spider = Spider.create(pageProcessor);
@@ -44,7 +58,7 @@ public class Main {
             FileSystemView fsv = FileSystemView.getFileSystemView();
             File com=fsv.getHomeDirectory();
 
-            String outPutPath = com.getAbsolutePath()+ "/Desktop/" + spider.getSite().getDomain() + ".csv";
+            String outPutPath = com.getAbsolutePath()+ "/Desktop/" + "findings/" + spider.getSite().getDomain() + ".csv";
 
             FilePersistentBase pa = new FilePersistentBase();
             pa.setPath(outPutPath);
