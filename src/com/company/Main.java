@@ -1,5 +1,6 @@
 package com.company;
 
+import com.sun.org.apache.bcel.internal.generic.GOTO;
 import org.apache.commons.lang3.StringUtils;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
@@ -17,19 +18,73 @@ import java.util.regex.Pattern;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
+
+        EntryLogger.logWelcome();
 
         Scanner s = new Scanner(System.in);
-        System.out.println("请输入要查询的邮箱的主站地址,以http开头, 回车继续:");
 
-        String url = s.nextLine().trim();
-        while (url.isEmpty()) {
+        String entry = EntryLogger.logFuction(s);
 
-            System.out.println("请输入要查询的邮箱的主站地址, 以http开头, 回车继续:");
-            url = s.nextLine().trim();
+        EntryLogger.enterFunction(entry);
+
+        GithubRepoPageProcessor pageProcessor = new GithubRepoPageProcessor(false);
+        Spider spider = Spider.create(pageProcessor);
+
+        if (entry.equals("1")) {
+            System.out.println("功能正在开发中,请期待0.0.5版本!");
+
+
+
+
+        }else {
+
+            System.out.println("请选择工作模式: 1 层级抓取 2 序列抓取");
+
+            String modeStr = s.nextLine().trim();
+            ArrayList urls = new ArrayList();
+            if (modeStr.equals("1")) {
+                System.out.println("工作模式: 层级抓取");
+
+                System.out.println("请输入要查询的邮箱的主站地址,以http开头, 回车继续:");
+
+                String url = s.nextLine().trim();
+                while (url.isEmpty()) {
+
+                    System.out.println("请输入要查询的邮箱的主站地址, 以http开头, 回车继续:");
+                    url = s.nextLine().trim();
+                }
+                spider.addUrl(url);
+
+            }else  {
+                System.out.println("工作模式: 序列抓取");
+
+                System.out.println("请输入要查询的地址,请去除其中的有序索引数字, 使用$代替:");
+                String url = s.nextLine().trim();
+
+                while (!url.contains("$")) {
+
+                    System.out.println("输入错误!\n请输入要查询的地址,请去除其中的有序索引数字, 使用$代替:");
+                    url = s.nextLine().trim();
+                }
+
+                System.out.println("请输入起始索引数字:");
+                int head = Integer.valueOf(s.next().trim());
+                System.out.println("请输入结束索引数字:");
+                int tail = Integer.valueOf(s.next().trim());
+                System.out.println("正在生成对应地址………");
+                for (int i = head; i <= tail; i++) {
+                    String replacedUrl = url.replace("$", "" + i);
+                    urls.add(replacedUrl);
+                    spider.addUrl(replacedUrl);
+                }
+                System.out.println("在索引模式下,默认只抓取当前页,不进行深入挖掘 \n如果想拓展功能,请联系开发者 周正昌");
+                pageProcessor.maxDepth = 0;
+            }
+
         }
-    GithubRepoPageProcessor pageProcessor = new GithubRepoPageProcessor(false);
-        Spider spider = Spider.create(pageProcessor).addUrl(url).thread(10);
+
+        spider.thread(10);
 
         System.out.println("请输入要存储的位置(直接回车存到桌面):");
 //
@@ -67,12 +122,16 @@ public class Main {
         System.out.println("如果存在特殊字符不要忘记更改配置文件。");
 
         String path = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath()+ "config.con";
+        if (path.contains("crawler.jar")) {
+            path = path.replace("crawler.jar", "");
+        }
         String ats = Main.readFileByLines(path);
-        System.out.println("读取配置文件路径…………"+path);
+        System.out.println("读取配置文件路径…………"+path + "    content:" + ats);
 
         if (ats.length()>0) {
             String[] str = ats.split(",");
             pageProcessor.operators = str;
+            System.out.println("读取配置文件" + str);
         }else {
             System.out.println("配置文件未读取!!!!!!!!!!...");
         }
@@ -81,7 +140,7 @@ public class Main {
         System.out.println("开始批量抓取email...");
 
         spider.setExitWhenComplete(true);
-        spider.run();
+        spider.runAsync();
 
 
     }
@@ -126,6 +185,7 @@ class GithubRepoPageProcessor implements PageProcessor {
     public boolean strict = false;
     public String[] operators;
     public int depth = 0;
+    public int maxDepth = 1;
     GithubRepoPageProcessor(boolean strict) {
         this.strict = strict;
     }
@@ -141,6 +201,8 @@ class GithubRepoPageProcessor implements PageProcessor {
 
         System.out.println("depth: " + depth);
         String emailRex = "[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
+
+//        System.out.print(page.getHtml().toString());
 
         Selectable selectablem = null;
         if (operators.length>0){
@@ -162,7 +224,7 @@ class GithubRepoPageProcessor implements PageProcessor {
 //        String emailRex = "/[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?/";
 
 
-//System.out.print(selectablem);
+
 //        page.putField("email", page.getHtml().regex(emailRex));
 //        String str = page.getHtml().replace("\\s\\*\\s|\\s\\*&nbsp;", "@").toString();
 
@@ -200,6 +262,9 @@ class GithubRepoPageProcessor implements PageProcessor {
             if (this.strict) {
                 // 控制深度为1层
                 if (depth == 0) {
+
+                    if (maxDepth == depth) {return;}
+
                     depth++;
                     for (String url : page.getHtml().links().all()) {
                         Request request = new Request(url).setPriority(1).putExtra("index", Integer.valueOf(1));
