@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -17,7 +18,7 @@ public class EntryLogger {
         Thread.sleep(100);
         System.out.println("*                                             *");
         Thread.sleep(100);
-        System.out.println("*                  Jason Zhou                 *");
+        System.out.println("*            Powered By Jason Zhou            *");
         Thread.sleep(100);
         System.out.println("*                                             *");
         Thread.sleep(100);
@@ -49,5 +50,19 @@ public class EntryLogger {
             System.out.println("进入超级邮箱检索器");
         }
     }
+
+    public static void testFunction() {
+
+        ArrayList arrayList = new ArrayList(3);
+        arrayList.add("chem");
+        arrayList.add("go");
+        arrayList.add("hh");
+
+        String str = RegexGenerator.regexForArray(arrayList);
+        System.out.println(str);
+
+
+    }
+
 
 }

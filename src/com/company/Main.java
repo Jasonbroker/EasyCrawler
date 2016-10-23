@@ -1,20 +1,11 @@
 package com.company;
 
-import com.sun.org.apache.bcel.internal.generic.GOTO;
-import org.apache.commons.lang3.StringUtils;
-import us.codecraft.webmagic.Page;
-import us.codecraft.webmagic.Request;
-import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
-import us.codecraft.webmagic.processor.PageProcessor;
-import us.codecraft.webmagic.selector.Selectable;
 import us.codecraft.webmagic.utils.FilePersistentBase;
 
 import javax.swing.filechooser.FileSystemView;
 import java.io.*;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Main {
 
@@ -28,16 +19,51 @@ public class Main {
 
         EntryLogger.enterFunction(entry);
 
-        GithubRepoPageProcessor pageProcessor = new GithubRepoPageProcessor(false);
-        Spider spider = Spider.create(pageProcessor);
+        Spider spider;
 
         if (entry.equals("1")) {
-            System.out.println("功能正在开发中,请期待0.0.5版本!");
+//            System.out.println("功能正在开发中,请期待0.0.5版本!");
+            System.out.println("请输入要查询的邮箱的主站地址,以http开头, 回车继续:");
 
+            String url = s.nextLine().trim();
+            while (url.isEmpty()) {
 
+                System.out.println("请输入要查询的邮箱的主站地址, 以http开头, 回车继续:");
+                url = s.nextLine().trim();
+            }
+
+            ArrayList arrayList = new ArrayList(3);
+            arrayList.add("chem");
+            arrayList.add("research");
+
+            KeywordFindingPageProcessor pageProcessor = new KeywordFindingPageProcessor(arrayList);
+            spider = Spider.create(pageProcessor);
+            spider.addUrl(url);
+            spider.setExitWhenComplete(true);
+            File file;
+            FileSystemView fsv = FileSystemView.getFileSystemView();
+            File com=fsv.getHomeDirectory();
+
+            String outPutPath = com.getAbsolutePath()+ "/Desktop/" + spider.getSite().getDomain() + ".csv";
+
+            FilePersistentBase pa = new FilePersistentBase();
+            pa.setPath(outPutPath);
+            file = pa.getFile(outPutPath);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            spider.addPipeline(new KeywordPipline(file.getAbsolutePath()));
+            System.out.println("开启20个线程抓取, 当前占用系统资源较多,请注意避免开启太多软件造成卡顿!");
+            System.out.println("开始批量抓取目标网址");
+
+            spider.thread(20);
+            spider.runAsync();
 
 
         }else {
+
+            GithubRepoPageProcessor pageProcessor = new GithubRepoPageProcessor(false);
+            spider = Spider.create(pageProcessor);
 
             System.out.println("请选择工作模式: 1 层级抓取 2 序列抓取");
 
@@ -81,67 +107,65 @@ public class Main {
                 System.out.println("在索引模式下,默认只抓取当前页,不进行深入挖掘 \n如果想拓展功能,请联系开发者 周正昌");
                 pageProcessor.maxDepth = 0;
             }
+            spider.thread(10);
 
-        }
-
-        spider.thread(10);
-
-        System.out.println("请输入要存储的位置(直接回车存到桌面):");
+            System.out.println("请输入要存储的位置(直接回车存到桌面):");
 //
-        File file = null;
+            File file = null;
 
-        if (s.nextLine().equals("")) {
-            FileSystemView fsv = FileSystemView.getFileSystemView();
-            File com=fsv.getHomeDirectory();
+            if (s.nextLine().equals("")) {
+                FileSystemView fsv = FileSystemView.getFileSystemView();
+                File com=fsv.getHomeDirectory();
 
-            String outPutPath = com.getAbsolutePath()+ "/Desktop/" + spider.getSite().getDomain() + ".csv";
+                String outPutPath = com.getAbsolutePath()+ "/Desktop/" + spider.getSite().getDomain() + ".csv";
 
                 FilePersistentBase pa = new FilePersistentBase();
                 pa.setPath(outPutPath);
                 file = pa.getFile(outPutPath);
-            if (!file.exists()) {
-                file.createNewFile();
-            }
+                if (!file.exists()) {
+                    file.createNewFile();
+                }
                 System.out.println("存储到桌面!" + file.getAbsolutePath());
-            PrintWriter printWriter;
-            printWriter = new PrintWriter(new FileWriter(file.getAbsolutePath(), true));
-            printWriter.print("URL" +"," + "E-mail\n");
-            printWriter.close();
+                PrintWriter printWriter;
+                printWriter = new PrintWriter(new FileWriter(file.getAbsolutePath(), true));
+                printWriter.print("URL" +"," + "E-mail\n");
+                printWriter.close();
+            }
+
+            System.out.println("是否需要开启严肃模式(只爬取当页下面的页面,不会继续往下爬取了,建议开启):需要开启输入: y");
+
+            if (s.nextLine().trim().equals("y")){
+                System.out.println("开启严肃模式!");
+                pageProcessor.strict = true;
+                spider.addPipeline(new PendingPipline(file.getAbsolutePath(), true));
+            }else {
+                spider.addPipeline(new PendingPipline(file.getAbsolutePath(), false));
+            }
+
+            System.out.println("如果存在特殊字符不要忘记更改配置文件。");
+
+            String path = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath()+ "config.con";
+            if (path.contains("crawler.jar")) {
+                path = path.replace("crawler.jar", "");
+            }
+            String ats = Main.readFileByLines(path);
+            System.out.println("读取配置文件路径…………"+path + "    content:" + ats);
+
+            if (ats.length()>0) {
+                String[] str = ats.split(",");
+                pageProcessor.operators = str;
+                System.out.println("读取配置文件" + str);
+            }else {
+                System.out.println("配置文件未读取!!!!!!!!!!...");
+            }
+
+            System.out.println("开启10个线程批量抓取email...网速快的话一分钟能抓100个email 地址……");
+            System.out.println("开始批量抓取email...");
+
+            spider.setExitWhenComplete(true);
+            spider.runAsync();
+
         }
-
-        System.out.println("是否需要开启严肃模式(只爬取当页下面的页面,不会继续往下爬取了,建议开启):需要开启输入: y");
-
-        if (s.nextLine().trim().equals("y")){
-            System.out.println("开启严肃模式!");
-            pageProcessor.strict = true;
-            spider.addPipeline(new PendingPipline(file.getAbsolutePath(), true));
-        }else {
-            spider.addPipeline(new PendingPipline(file.getAbsolutePath(), false));
-        }
-
-        System.out.println("如果存在特殊字符不要忘记更改配置文件。");
-
-        String path = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath()+ "config.con";
-        if (path.contains("crawler.jar")) {
-            path = path.replace("crawler.jar", "");
-        }
-        String ats = Main.readFileByLines(path);
-        System.out.println("读取配置文件路径…………"+path + "    content:" + ats);
-
-        if (ats.length()>0) {
-            String[] str = ats.split(",");
-            pageProcessor.operators = str;
-            System.out.println("读取配置文件" + str);
-        }else {
-            System.out.println("配置文件未读取!!!!!!!!!!...");
-        }
-
-        System.out.println("开启10个线程批量抓取email...网速快的话一分钟能抓100个email 地址……");
-        System.out.println("开始批量抓取email...");
-
-        spider.setExitWhenComplete(true);
-        spider.runAsync();
-
 
     }
 
@@ -174,142 +198,4 @@ public class Main {
         return str;
     }
 }
-
-
-
-
-class GithubRepoPageProcessor implements PageProcessor {
-
-    private Site site = Site.me().setRetryTimes(3).setSleepTime(100).setTimeOut(60000);
-    private String regString = null;
-    public boolean strict = false;
-    public String[] operators;
-    public int depth = 0;
-    public int maxDepth = 1;
-    GithubRepoPageProcessor(boolean strict) {
-        this.strict = strict;
-    }
-
-    @Override
-    public void process(Page page) {
-
-        if (regString == null) {
-            regString = site.getDomain().replaceAll("\\.", "\\\\.");
-//            regString = "^(http(s?):\\/\\/)?(" + regString + ")[^\\s]*";
-            regString = regString + "[^\\s]*";
-        }
-
-        System.out.println("depth: " + depth);
-        String emailRex = "[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
-
-//        System.out.print(page.getHtml().toString());
-
-        Selectable selectablem = null;
-        if (operators.length>0){
-            String atRegex = "";
-            if (operators.length == 1) {
-                atRegex = escapeExprSpecialWord(operators[0]);
-            }else {
-                for (int i = 0; i < operators.length; i++) {
-                    atRegex += "(" + operators[i] + ")";
-                    if (i != operators.length - 1) {
-                        atRegex += "|";
-                    }
-                }
-            }
-           selectablem = page.getHtml().replace(atRegex, "@");
-        } else {
-            selectablem = page.getHtml();
-        }
-//        String emailRex = "/[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?/";
-
-
-
-//        page.putField("email", page.getHtml().regex(emailRex));
-//        String str = page.getHtml().replace("\\s\\*\\s|\\s\\*&nbsp;", "@").toString();
-
-        Pattern p = Pattern.compile(emailRex);
-        Matcher m = p.matcher(selectablem.toString());
-        String resultEmails = "";
-
-        int count = 0;
-        HashSet set = new HashSet();
-        while (m.find()) {
-            if (count > 0) {
-                resultEmails += "\n,";
-            }
-            count++;
-            String str = m.group();
-            if (!set.contains(str)) {
-                resultEmails += m.group();
-            }
-        }
-
-        page.putField("email", resultEmails);
-
-        if (page.getResultItems().get("email") == null) {
-            //skip this page
-            page.getResultItems().setSkip(true);
-            page.setSkip(true);
-        } else {
-            if (page.getRequest().getUrl().endsWith(".jpg")
-                    || page.getRequest().getUrl().endsWith(".jpeg")
-                    || page.getRequest().getUrl().endsWith(".pdf") ) {
-                page.setSkip(true);
-                page.getResultItems().setSkip(true);
-            }
-
-            if (this.strict) {
-                // 控制深度为1层
-                if (depth == 0) {
-
-                    if (maxDepth == depth) {return;}
-
-                    depth++;
-                    for (String url : page.getHtml().links().all()) {
-                        Request request = new Request(url).setPriority(1).putExtra("index", Integer.valueOf(1));
-                        page.addTargetRequest(request);
-                    }
-                }
-            } else {
-
-//                page.addTargetRequests(page.getHtml().links().regex(regString).all());
-                page.addTargetRequests(page.getHtml().links().all());
-            }
-
-//            if (this.strict) {
-//
-//                page.addTargetRequests(page.getHtml().links().regex(regString).all());
-//            } else {
-////            count++;
-////            System.out.println("=---------" + count);
-//                page.addTargetRequests(page.getHtml().links().all());
-//            }
-
-        }
-
-
-        // 部分三：从页面发现后续的url地址来抓取
-//        page.addTargetRequests(page.getHtml().links().regex("(https://github\\.com/\\w+/\\w+)").all());
-    }
-
-    public static String escapeExprSpecialWord(String keyword) {
-        if (StringUtils.isNotBlank(keyword)) {
-            String[] fbsArr = { "\\", "$", "(", ")", "*", "+", ".", "[", "]", "?", "^", "{", "}", "|" };
-            for (String key : fbsArr) {
-                if (keyword.contains(key)) {
-                    keyword = keyword.replace(key, "\\" + key);
-                }
-            }
-        }
-        return keyword;
-    }
-
-
-    @Override
-    public Site getSite() {
-        return site;
-    }
-}
-
 
