@@ -1,11 +1,8 @@
 package com.company;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.ObjectUtils;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
-import us.codecraft.webmagic.selector.PlainText;
 
 import java.io.*;
 import java.util.HashSet;
@@ -21,11 +18,6 @@ public class PendingPipline implements Pipeline {
     HashSet<String> emails = new HashSet();
 
     private  boolean enableStrictMode = false;
-
-    PendingPipline(String piplinePath) {
-
-        this.path = piplinePath;
-    }
 
     PendingPipline(String piplinePath, boolean enableStrictMode) {
 

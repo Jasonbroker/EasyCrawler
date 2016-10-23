@@ -51,18 +51,6 @@ public class EntryLogger {
         }
     }
 
-    public static void testFunction() {
-
-        ArrayList arrayList = new ArrayList(3);
-        arrayList.add("chem");
-        arrayList.add("go");
-        arrayList.add("hh");
-
-        String str = RegexGenerator.regexForArray(arrayList);
-        System.out.println(str);
-
-
-    }
 
 
 }
