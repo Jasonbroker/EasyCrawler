@@ -1,6 +1,7 @@
 package com.company;
 
 import org.apache.commons.codec.binary.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jsoup.helper.StringUtil;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.utils.FilePersistentBase;
@@ -168,7 +169,7 @@ public class Main {
             if (ats.length()>0) {
                 String[] str = ats.split(",");
                 pageProcessor.operators = str;
-                System.out.println("读取配置文件" + str);
+                System.out.println("读取配置文件" + str[0]);
             }else {
                 System.out.println("配置文件未读取!!!!!!!!!!...");
             }

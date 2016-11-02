@@ -1,5 +1,6 @@
 package com.company;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
@@ -39,8 +40,12 @@ class GithubRepoPageProcessor implements PageProcessor {
         String emailRex = "[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
 
 //        System.out.print(page.getHtml().toString());
-
-        Selectable selectablem = null;
+        boolean special = false;
+        if (page.getHtml().toString().contains("x40")) {
+            emailRex = "\'(.*)@(.*)\'";
+            special = true;
+        }
+        Selectable selectablem;
         if (operators.length>0){
             String atRegex = "";
             if (operators.length == 1) {
@@ -57,9 +62,9 @@ class GithubRepoPageProcessor implements PageProcessor {
         } else {
             selectablem = page.getHtml();
         }
-//        String emailRex = "/[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?/";
+// 包含@
 
-
+//        String emailRex = "/[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?/
 
 //        page.putField("email", page.getHtml().regex(emailRex));
 //        String str = page.getHtml().replace("\\s\\*\\s|\\s\\*&nbsp;", "@").toString();
@@ -76,8 +81,12 @@ class GithubRepoPageProcessor implements PageProcessor {
             }
             count++;
             String str = m.group();
+            if (special) {
+
+               str = StringEscapeUtils.unescapeJava(str.replace("'","").replace("\\x","\\u00"));
+            }
             if (!set.contains(str)) {
-                resultEmails += m.group();
+                resultEmails += str;
             }
         }
 
