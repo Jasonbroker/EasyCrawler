@@ -3,41 +3,90 @@ package com.company;
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.jsoup.helper.StringUtil;
+import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Spider;
+import us.codecraft.webmagic.SpiderListener;
 import us.codecraft.webmagic.utils.FilePersistentBase;
 
+import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
 
 public class Main {
 
+    static MainWindow frame1;
+    static Spider spider;
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        EntryLogger.logWelcome();
+        frame1 = new MainWindow();
+        frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//一定要设置关闭
 
-        Scanner s = new Scanner(System.in);
+        frame1.setVisible(true);
 
-        String entry = EntryLogger.logFuction(s);
+        String path = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath()+ "config.con";
+        if (path.contains("crawler.jar")) {
+            path = path.replace("crawler.jar", "");
+        }
+        String ats = Main.readFileByLines(path);
+        frame1.setSeperator(ats);
 
-        EntryLogger.enterFunction(entry);
-
-        Spider spider;
-
-        if (entry.equals("1")) {
-
-            System.out.println("请输入要查询的邮箱的主站地址,以http开头, 回车继续:");
-
-            String url = s.nextLine().trim();
-            while (url.isEmpty()) {
-
-                System.out.println("请输入要查询的邮箱的主站地址, 以http开头, 回车确认:");
-                url = s.nextLine().trim();
+        frame1.addCLickLisener(new MainWindowListener() {
+            @Override
+            public void buttonClicked(boolean on) {
+                try {
+                    if (on) {
+                        runP();
+                    } else  {
+                        stop();
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
             }
+        });
+    }
 
-            System.out.println("请输入需要查询的关键词,用英文隔开, 回车确认:");
+    private  static void stop () {
+        spider.stop();
+    }
 
-            String keywordsStr = s.nextLine().trim();
+    private  static void runP () throws IOException, InterruptedException {
+
+        int threadNum = frame1.getThreadNum();
+        String url = frame1.getUrl();
+
+        if (url.isEmpty()) {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(null, "网址问题", "请输入网址", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        if (!url.startsWith("http")) {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(null, "网址问题", "please input the url with http prefix.", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        if (threadNum > 10000) {
+            threadNum = 40;
+        } else if (threadNum < 1) {
+            threadNum = 1;
+        }
+
+        System.out.println(frame1.getFunctionType());
+        if (frame1.getFunctionType() == 1) {
+
+//            System.out.println("请输入需要查询的关键词,用英文隔开, 回车确认:");
+
+            String keywordsStr = "21";
+
+            ///////////////////////////////////////////////
+
             ArrayList arrayList = new ArrayList();
             if (keywordsStr.length()>0) {
                 String[] stringsArr = keywordsStr.split(",");
@@ -53,6 +102,8 @@ public class Main {
 
             KeywordFindingPageProcessor pageProcessor = new KeywordFindingPageProcessor(arrayList);
             spider = Spider.create(pageProcessor);
+
+
             spider.addUrl(url);
             spider.setExitWhenComplete(true);
             File file;
@@ -68,103 +119,66 @@ public class Main {
                 file.createNewFile();
             }
             spider.addPipeline(new KeywordPipline(file.getAbsolutePath()));
-            System.out.println("开启20个线程抓取, 当前占用系统资源较多,请注意避免开启太多软件造成卡顿!");
-            System.out.println("开始批量抓取目标网址");
 
-            spider.thread(20);
+            spider.thread(threadNum);
             spider.runAsync();
 
 
-        }else {
+        } else {
+
+            boolean workingMode = frame1.getWorkingMode();
+            int startIndex = frame1.getStartIndex();
+            int endIndex = frame1.getEndIndex();
+            boolean strictMode = frame1.enableStrictMode();
+            String ats = frame1.getSeperator();
+            //////////////////////////////////////////////////////////////////////////////////////
 
             GithubRepoPageProcessor pageProcessor = new GithubRepoPageProcessor(false);
             spider = Spider.create(pageProcessor);
 
             System.out.println("请选择工作模式: 1 层级抓取 2 序列抓取");
 
-            String modeStr = s.nextLine().trim();
             ArrayList urls = new ArrayList();
-            if (modeStr.equals("1")) {
-                System.out.println("工作模式: 层级抓取");
-
-                System.out.println("请输入要查询的邮箱的主站地址,以http开头, 回车继续:");
-
-                String url = s.nextLine().trim();
-                while (url.isEmpty()) {
-
-                    System.out.println("请输入要查询的邮箱的主站地址, 以http开头, 回车继续:");
-                    url = s.nextLine().trim();
-                }
+            if (workingMode) {
                 spider.addUrl(url);
-
             }else  {
-                System.out.println("工作模式: 序列抓取");
 
-                System.out.println("请输入要查询的地址,请去除其中的有序索引数字, 使用$代替:");
-                String url = s.nextLine().trim();
-
-                while (!url.contains("$")) {
-
+                if (!url.contains("$")) {
                     System.out.println("输入错误!\n请输入要查询的地址,请去除其中的有序索引数字, 使用$代替:");
-                    url = s.nextLine().trim();
+                    return;
                 }
 
-                System.out.println("请输入起始索引数字:");
-                int head = Integer.valueOf(s.next().trim());
-                System.out.println("请输入结束索引数字:");
-                int tail = Integer.valueOf(s.next().trim());
-                System.out.println("正在生成对应地址………");
-                for (int i = head; i <= tail; i++) {
+                for (int i = startIndex; i <= endIndex; i++) {
                     String replacedUrl = url.replace("$", "" + i);
                     urls.add(replacedUrl);
                     spider.addUrl(replacedUrl);
                 }
-                System.out.println("在索引模式下,默认只抓取当前页,不进行深入挖掘 \n如果想拓展功能,请联系开发者 周正昌");
+
                 pageProcessor.maxDepth = 0;
             }
-            spider.thread(10);
+            spider.thread(threadNum);
 
-            System.out.println("请输入要存储的位置(直接回车存到桌面):");
-//
-            File file = null;
+            FileSystemView fsv = FileSystemView.getFileSystemView();
+            File com=fsv.getHomeDirectory();
 
-            if (s.nextLine().equals("")) {
-                FileSystemView fsv = FileSystemView.getFileSystemView();
-                File com=fsv.getHomeDirectory();
+            String outPutPath = com.getAbsolutePath()+ "/Desktop/" + spider.getSite().getDomain() + ".csv";
 
-                String outPutPath = com.getAbsolutePath()+ "/Desktop/" + spider.getSite().getDomain() + ".csv";
-
-                FilePersistentBase pa = new FilePersistentBase();
-                pa.setPath(outPutPath);
-                file = pa.getFile(outPutPath);
-                if (!file.exists()) {
-                    file.createNewFile();
-                }
-                System.out.println("存储到桌面!" + file.getAbsolutePath());
-                PrintWriter printWriter;
-                printWriter = new PrintWriter(new FileWriter(file.getAbsolutePath(), true));
-                printWriter.print("URL" +"," + "E-mail\n");
-                printWriter.close();
+            FilePersistentBase pa = new FilePersistentBase();
+            pa.setPath(outPutPath);
+            File file = pa.getFile(outPutPath);
+            if (!file.exists()) {
+                file.createNewFile();
             }
+            System.out.println("存储到桌面!" + file.getAbsolutePath());
+            PrintWriter printWriter;
+            printWriter = new PrintWriter(new FileWriter(file.getAbsolutePath(), true));
+            printWriter.print("URL" +"," + "E-mail\n");
+            printWriter.close();
 
             System.out.println("是否需要开启严肃模式(只爬取当页下面的页面,不会继续往下爬取了,建议开启):需要开启输入: y");
 
-            if (s.nextLine().trim().equals("y")){
-                System.out.println("开启严肃模式!");
-                pageProcessor.strict = true;
-                spider.addPipeline(new PendingPipline(file.getAbsolutePath(), true));
-            }else {
-                spider.addPipeline(new PendingPipline(file.getAbsolutePath(), false));
-            }
-
-            System.out.println("如果存在特殊字符不要忘记更改配置文件。");
-
-            String path = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath()+ "config.con";
-            if (path.contains("crawler.jar")) {
-                path = path.replace("crawler.jar", "");
-            }
-            String ats = Main.readFileByLines(path);
-            System.out.println("读取配置文件路径…………"+path + "    content:" + ats);
+            pageProcessor.strict = strictMode;
+            spider.addPipeline(new PendingPipline(file.getAbsolutePath(), strictMode));
 
             if (ats.length()>0) {
                 String[] str = ats.split(",");
@@ -174,14 +188,30 @@ public class Main {
                 System.out.println("配置文件未读取!!!!!!!!!!...");
             }
 
-            System.out.println("开启10个线程批量抓取email...网速快的话一分钟能抓100个email 地址……");
-            System.out.println("开始批量抓取email...");
-
             spider.setExitWhenComplete(true);
             spider.runAsync();
 
         }
+        SpiderListener listener = new SpiderListener() {
+            @Override
+            public void onSuccess(Request request) {
+                int thread = spider.getThreadAlive();
+                if (thread == 0) {
+                    frame1.start(false);
+                    Toolkit.getDefaultToolkit().beep();
+                    JOptionPane.showMessageDialog(null, "成功", "抓取成功,请在桌面查看",JOptionPane.INFORMATION_MESSAGE);
+                }
 
+            }
+
+            @Override
+            public void onError(Request request) {
+
+            }
+        };
+        LinkedList list = new LinkedList<>();
+        list.add(listener);
+        spider.setSpiderListeners(list);
     }
 
     public static String readFileByLines(String fileName) {
@@ -189,7 +219,6 @@ public class Main {
         BufferedReader reader = null;
         String str = "";
         try {
-            System.out.println("以行为单位读取文件内容，一次读一整行：");
             reader = new BufferedReader(new FileReader(file));
             String tempString = null;
             int line = 1;
