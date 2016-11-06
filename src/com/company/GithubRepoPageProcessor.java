@@ -76,17 +76,19 @@ class GithubRepoPageProcessor implements PageProcessor {
         int count = 0;
         HashSet set = new HashSet();
         while (m.find()) {
-            if (count > 0) {
-                resultEmails += "\n,";
-            }
-            count++;
+
             String str = m.group();
             if (special) {
-
                str = StringEscapeUtils.unescapeJava(str.replace("'","").replace("\\x","\\u00"));
             }
             if (!set.contains(str)) {
+                if (count > 0) {
+                    resultEmails += "\n,";
+                }
+                count++;
                 resultEmails += str;
+                set.add(str);
+
             }
         }
 

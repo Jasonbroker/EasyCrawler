@@ -36,27 +36,29 @@ public class Main {
 
         frame1.addCLickLisener(new MainWindowListener() {
             @Override
-            public void buttonClicked(boolean on) {
+            public boolean buttonClicked(boolean on) {
                 try {
                     if (on) {
-                        runP();
+                        return runP();
                     } else  {
-                        stop();
+                        return stop();
                     }
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
+                return true;
             }
         });
     }
 
-    private  static void stop () {
+    private  static boolean stop () {
         spider.stop();
+        return true;
     }
 
-    private  static void runP () throws IOException, InterruptedException {
+    private  static boolean runP () throws IOException, InterruptedException {
 
         int threadNum = frame1.getThreadNum();
         String url = frame1.getUrl();
@@ -64,12 +66,12 @@ public class Main {
         if (url.isEmpty()) {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "网址问题", "请输入网址", JOptionPane.INFORMATION_MESSAGE);
-            return;
+            return false;
         }
         if (!url.startsWith("http")) {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(null, "网址问题", "please input the url with http prefix.", JOptionPane.INFORMATION_MESSAGE);
-            return;
+            return false;
         }
 
         if (threadNum > 10000) {
@@ -121,8 +123,6 @@ public class Main {
             spider.addPipeline(new KeywordPipline(file.getAbsolutePath()));
 
             spider.thread(threadNum);
-            spider.runAsync();
-
 
         } else {
 
@@ -136,8 +136,6 @@ public class Main {
             GithubRepoPageProcessor pageProcessor = new GithubRepoPageProcessor(false);
             spider = Spider.create(pageProcessor);
 
-            System.out.println("请选择工作模式: 1 层级抓取 2 序列抓取");
-
             ArrayList urls = new ArrayList();
             if (workingMode) {
                 spider.addUrl(url);
@@ -145,7 +143,7 @@ public class Main {
 
                 if (!url.contains("$")) {
                     System.out.println("输入错误!\n请输入要查询的地址,请去除其中的有序索引数字, 使用$代替:");
-                    return;
+                    return false;
                 }
 
                 for (int i = startIndex; i <= endIndex; i++) {
@@ -189,7 +187,6 @@ public class Main {
             }
 
             spider.setExitWhenComplete(true);
-            spider.runAsync();
 
         }
         SpiderListener listener = new SpiderListener() {
@@ -212,6 +209,8 @@ public class Main {
         LinkedList list = new LinkedList<>();
         list.add(listener);
         spider.setSpiderListeners(list);
+        spider.runAsync();
+        return true;
     }
 
     public static String readFileByLines(String fileName) {

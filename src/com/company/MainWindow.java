@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 /**
  * Created by jason on 04/11/2016.
@@ -15,7 +16,7 @@ import java.awt.event.ActionListener;
 
 interface MainWindowListener {
 
-    void buttonClicked(boolean on);
+    boolean buttonClicked(boolean on);
 
 }
 
@@ -34,7 +35,10 @@ public class MainWindow extends JFrame {
     JRadioButton precending;
     ButtonGroup btnGroup;
     JCheckBox strictModeBox;
+    JCheckBox debugModeBox;
     private JTextArea sepText;
+
+    private JTextArea _logText;
 
     public MainWindow() {
         this.setSize(300, 600);
@@ -132,13 +136,39 @@ public class MainWindow extends JFrame {
         sepTextpan.setBounds(sepText.getBounds());
         this.add(sepTextpan);
 
+        debugModeBox = new JCheckBox("开启debug模式");
+        debugModeBox.setSelected(false);
+        debugModeBox.setBounds(30, sepText.getHeight() + sepText.getY(), 150, 20);
+        this.add(debugModeBox);
+        debugModeBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (debugModeBox.isSelected()) {
+                    MainWindow.this.setSize(700, 600);
+                }else {
+                    MainWindow.this.setSize(300, 600);
+                }
+            }
+        });
+
         startButton = new JButton();
         startButton.setBounds(30, this.getHeight() - 60 - 60, this.getWidth() - 60, 60);
         startButton.setText("<html><HTML><body style=color:red>开始</body></html>");
         startButton.setToolTipText("开始");
-//        startButton.addActionListener(new HelloButton());//添加监听器类，其主要的响应都由监听器类的方法实现
-//        button1.setBackground(new Color(0.8f,0.8f,0.8f));
         this.add(startButton);
+
+
+        _logText = new JTextArea();
+        _logText.setBounds(300, 0, 400, this.getHeight());
+        _logText.setLineWrap(true);
+        JScrollPane _logTextpan = new JScrollPane(_logText);
+        _logTextpan.setBounds(_logText.getBounds());
+        _logText.enableInputMethods(false);
+        this.add(_logTextpan);
+
+        MyPrintStream myPrintStream = new MyPrintStream(System.out, _logText);
+        System.setOut(myPrintStream);
+        System.setErr(myPrintStream);
 
 //    this.add(this.getSlider(),null);
 //    this.add(this.getSpinner(),null);
@@ -148,8 +178,9 @@ public class MainWindow extends JFrame {
         startButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+               boolean suc = listener.buttonClicked(!startButton.isSelected());
+                if (suc)
                 start(!startButton.isSelected());
-                listener.buttonClicked(startButton.isSelected());
             }
         });
     }
@@ -199,7 +230,13 @@ public class MainWindow extends JFrame {
         return sepText.getText();
     }
 
+    public boolean isEnableDebug() {
+        return debugModeBox.isSelected();
+    }
 
+    public void  setDebugEnabled(boolean enabled) {
+        debugModeBox.setSelected(enabled);
+    }
 
     private JToolBar getToolBar() {
         if (toolBar == null) {
