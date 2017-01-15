@@ -7,37 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d0f70bb-d65b-4172-81ac-6a2fe88586d3" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/crawler.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/config.con" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/crawler.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/assertj-core-1.5.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/commons-codec-1.6.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/commons-collections-3.2.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/commons-io-1.3.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/commons-lang-2.6.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/commons-lang3-3.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/commons-logging-1.1.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/commons-pool-1.5.5.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/fastjson-1.1.37.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/guava-15.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/hamcrest-core-1.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/httpclient-4.3.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/httpcore-4.3.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/jedis-2.0.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/json-path-0.8.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/json-smart-1.1.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/jsoup-1.7.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/junit-4.11.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/log4j-1.2.17.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/slf4j-api-1.7.6.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/slf4j-log4j12-1.7.6.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/webmagic-core-0.5.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/webmagic-extension-0.5.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/crawler_jar/libs/xsoup-0.2.4.jar" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/crawler/com/company/Main.class" afterPath="$PROJECT_DIR$/out/production/crawler/com/company/Main.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/crawler_jar.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/crawler_jar.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/PendingPipline.java" afterPath="$PROJECT_DIR$/src/com/company/PendingPipline.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/ScrawerUI.java" afterPath="$PROJECT_DIR$/src/com/company/ScrawerUI.java" />
     </list>
     <ignored path="crawler.iws" />
@@ -60,7 +31,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ScrawerUI.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ScrawerUI.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/company/ScrawerUI.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="82">
@@ -75,18 +46,6 @@
                 <element signature="e#10407#10408#0" expanded="true" />
                 <element signature="method#getMenu#0;class#ScrawerUI#0" expanded="false" />
                 <element signature="method#createUI#0;class#ScrawerUI#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PendingPipline.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/company/PendingPipline.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="30" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
-              <folding>
-                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -681,7 +640,14 @@
       <option name="project" value="LOCAL" />
       <updated>1484484786890</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="add">
+      <created>1484488582646</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1484488582646</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1187,24 +1153,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/company/ScrawerUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="82">
-          <caret line="162" column="62" selection-start-line="162" selection-start-column="57" selection-end-line="162" selection-end-column="66" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1552#1553#0" expanded="true" />
-            <element signature="e#1580#1581#0" expanded="true" />
-            <element signature="e#10206#10207#0" expanded="true" />
-            <element signature="e#10245#10246#0" expanded="true" />
-            <element signature="e#10359#10360#0" expanded="true" />
-            <element signature="e#10407#10408#0" expanded="true" />
-            <element signature="method#getMenu#0;class#ScrawerUI#0" expanded="false" />
-            <element signature="method#createUI#0;class#ScrawerUI#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/src.zip!/java/io/File.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="147">
@@ -1219,6 +1167,24 @@
           <caret line="18" column="30" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/company/ScrawerUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="82">
+          <caret line="162" column="62" selection-start-line="162" selection-start-column="57" selection-end-line="162" selection-end-column="66" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1552#1553#0" expanded="true" />
+            <element signature="e#1580#1581#0" expanded="true" />
+            <element signature="e#10206#10207#0" expanded="true" />
+            <element signature="e#10245#10246#0" expanded="true" />
+            <element signature="e#10359#10360#0" expanded="true" />
+            <element signature="e#10407#10408#0" expanded="true" />
+            <element signature="method#getMenu#0;class#ScrawerUI#0" expanded="false" />
+            <element signature="method#createUI#0;class#ScrawerUI#0" expanded="false" />
           </folding>
         </state>
       </provider>

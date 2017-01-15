@@ -103,7 +103,7 @@ public class ScrawerUI extends Application implements SpiderListener{
 
     private boolean stopP () {
         spider.stop();
-        return true;
+        return false;
     }
 
     private  boolean runP () throws IOException, InterruptedException {
@@ -299,8 +299,7 @@ public class ScrawerUI extends Application implements SpiderListener{
     }
 
     public void startScrawling (boolean start) {
-        startButton.setDisable(start);
-        if (startButton.isDisabled()) {
+        if (start) {
             startButton.setText("结束");
         } else  {
             startButton.setText("开始");
@@ -311,12 +310,10 @@ public class ScrawerUI extends Application implements SpiderListener{
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                boolean suc = listener.buttonClicked(!startButton.isDisabled());
-                if (suc)
-                    startScrawling(!startButton.isDisabled());
+                boolean suc = listener.buttonClicked(startButton.getText() == "开始");
+                startScrawling(suc);
             }
         });
-
     }
 
     public int getFunctionType() {
