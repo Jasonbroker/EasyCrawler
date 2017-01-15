@@ -27,14 +27,17 @@ public class Main {
 
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                frame1 = new MainWindow();
-                frame1.createAndShowGUI();
 
-                String path = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath()+ "config.con";
+                frame1 = MainWindow.createAndShowGUI();
+
+                String path = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
                 if (path.contains("crawler.jar")) {
-                    path = path.replace("crawler.jar", "");
+                    path = path.replace("crawler.jar", "config.txt");
+                }else {
+                   path = path.concat(separator+"config.txt");
                 }
 
+                System.out.println("loading config file at "+ path);
 
                 String ats = null;
                 try {
@@ -43,8 +46,6 @@ public class Main {
 
                 }
                 frame1.setSeperator(ats);
-
-
 
                 frame1.addCLickLisener(new MainWindowListener() {
                     @Override
@@ -247,7 +248,7 @@ public class Main {
             }
             reader.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("read file error:" + fileName);
         } finally {
             if (reader != null) {
                 try {

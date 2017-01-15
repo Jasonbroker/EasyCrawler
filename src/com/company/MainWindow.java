@@ -35,15 +35,21 @@ public class MainWindow extends JFrame {
 
     private JTextArea _logText;
 
-    public void createAndShowGUI() {
+    public MainWindow(String s) {
+        this.setTitle(s);
+    }
+
+    public static MainWindow createAndShowGUI() {
         // Create and set up the window.
-        JFrame frame = new JFrame("网站信息提取系统");
+        MainWindow frame = new MainWindow("网站信息提取系统");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Set up the content pane.
-        this.addComponentsToPane(frame.getContentPane());
+        frame.addComponentsToPane(frame.getContentPane());
         // Display the window.
         frame.pack();
         frame.setVisible(true);
+
+        return frame;
     }
 
     public void addComponentsToPane(Container pane) {
@@ -160,7 +166,7 @@ public class MainWindow extends JFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
         pane.add(indexingSpinner2, c);
 
-        String disText = "<html><HTML><body style=color:red>请选择抓取速度,量力而行, 数值越大越影响本机速度:</body></html>";
+        String disText = "<html><HTML><body style=color:red>请选择抓取速度,量力而行, <br/>数值越大越影响本机速度:</body></html>";
         JLabel speedLabel = new JLabel(disText);
         speedLabel.setToolTipText("JLabel");
         c.gridx = 0;
@@ -169,7 +175,6 @@ public class MainWindow extends JFrame {
         pane.add(speedLabel, c);
 
         spinner = new JSpinner();
-        spinner.setBounds(30, speedLabel.getHeight() + speedLabel.getY(), this.getWidth() - 60, 20);
         spinner.setValue(10);
         c.gridx = 2;
         c.gridwidth = 1;
