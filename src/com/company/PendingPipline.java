@@ -7,6 +7,7 @@ import us.codecraft.webmagic.pipeline.Pipeline;
 import java.io.*;
 import java.util.HashSet;
 import java.util.Map;
+
 /**
  * Created by jason on 14/10/2016.
  */
@@ -15,6 +16,7 @@ public class PendingPipline implements Pipeline {
 
     private String path = "";
 
+    String newline = System.getProperty("line.separator");
     HashSet<String> emails = new HashSet();
 
     private  boolean enableStrictMode = false;
@@ -51,7 +53,7 @@ public class PendingPipline implements Pipeline {
                             this.emails.add(email);
                             try {
                                 printWriter = new PrintWriter(new FileWriter(this.path, true));
-                                printWriter.println(url + "," + email);
+                                printWriter.print(url + "," + email + newline);
 
                             } catch (IOException e) {
                                 System.out.println("write file error" + e.getMessage());
