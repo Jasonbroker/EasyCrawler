@@ -46,7 +46,7 @@ class GithubRepoPageProcessor implements PageProcessor {
             special = true;
         }
         Selectable selectablem;
-        if (operators.length>0){
+        if (operators!=null && operators.length>0){
             String atRegex = "";
             if (operators.length == 1) {
                 atRegex = escapeExprSpecialWord(operators[0]);

@@ -16,41 +16,56 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
 
+import static java.io.File.separator;
+
 public class Main {
 
     static MainWindow frame1;
     static Spider spider;
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        frame1 = new MainWindow();
-        frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//一定要设置关闭
 
-        frame1.setVisible(true);
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                frame1 = new MainWindow();
+                frame1.createAndShowGUI();
 
-        String path = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath()+ "config.con";
-        if (path.contains("crawler.jar")) {
-            path = path.replace("crawler.jar", "");
-        }
-        String ats = Main.readFileByLines(path);
-        frame1.setSeperator(ats);
-
-        frame1.addCLickLisener(new MainWindowListener() {
-            @Override
-            public boolean buttonClicked(boolean on) {
-                try {
-                    if (on) {
-                        return runP();
-                    } else  {
-                        return stop();
-                    }
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
+                String path = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath()+ "config.con";
+                if (path.contains("crawler.jar")) {
+                    path = path.replace("crawler.jar", "");
                 }
-                return true;
+
+
+                String ats = null;
+                try {
+                    ats = Main.readFileByLines(path);
+                } catch (IOException e) {
+
+                }
+                frame1.setSeperator(ats);
+
+
+
+                frame1.addCLickLisener(new MainWindowListener() {
+                    @Override
+                    public boolean buttonClicked(boolean on) {
+                        try {
+                            if (on) {
+                                return runP();
+                            } else  {
+                                return stop();
+                            }
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        } catch (InterruptedException e1) {
+                            e1.printStackTrace();
+                        }
+                        return true;
+                    }
+                });
             }
         });
+
     }
 
     private  static boolean stop () {
@@ -112,7 +127,7 @@ public class Main {
             FileSystemView fsv = FileSystemView.getFileSystemView();
             File com=fsv.getHomeDirectory();
 
-            String outPutPath = com.getAbsolutePath()+ "/Desktop/" + "findings/" + spider.getSite().getDomain() + ".csv";
+            String outPutPath = com.getAbsolutePath() + separator + "findings" + separator + spider.getSite().getDomain() + ".csv";
 
             FilePersistentBase pa = new FilePersistentBase();
             pa.setPath(outPutPath);
@@ -157,9 +172,12 @@ public class Main {
             spider.thread(threadNum);
 
             FileSystemView fsv = FileSystemView.getFileSystemView();
+
             File com=fsv.getHomeDirectory();
 
-            String outPutPath = com.getAbsolutePath()+ "/Desktop/" + spider.getSite().getDomain() + ".csv";
+            String outPutPath = com.getAbsolutePath() + separator +"Desktop"+ separator + spider.getSite().getDomain() + ".csv";
+
+            System.out.println("test存储到桌面!" + outPutPath);
 
             FilePersistentBase pa = new FilePersistentBase();
             pa.setPath(outPutPath);
@@ -213,7 +231,7 @@ public class Main {
         return true;
     }
 
-    public static String readFileByLines(String fileName) {
+    public static String readFileByLines(String fileName) throws IOException {
         File file = new File(fileName);
         BufferedReader reader = null;
         String str = "";
@@ -241,4 +259,3 @@ public class Main {
         return str;
     }
 }
-

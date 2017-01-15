@@ -1,14 +1,9 @@
 package com.company;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import sun.tools.tree.ThisExpression;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 /**
  * Created by jason on 04/11/2016.
@@ -40,124 +35,199 @@ public class MainWindow extends JFrame {
 
     private JTextArea _logText;
 
-    public MainWindow() {
-        this.setSize(300, 600);
-        this.getContentPane().setLayout(null);//设置布局控制器
+    public void createAndShowGUI() {
+        // Create and set up the window.
+        JFrame frame = new JFrame("网站信息提取系统");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // Set up the content pane.
+        this.addComponentsToPane(frame.getContentPane());
+        // Display the window.
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    public void addComponentsToPane(Container pane) {
+        //Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
+        //Dimension size = defaultToolkit.getScreenSize();
+//        int height = (int)(size.height *0.7);
+//        this.setSize(height>>1, height);
+
+        pane.setLayout(new GridBagLayout());//设置布局控制器
+        GridBagConstraints c = new GridBagConstraints();
 
         this.setTitle("网站信息提取系统");//设置窗口标题
 
-        this.setJMenuBar(this.getMenu());//添加菜单
+        menuBar = this.getMenu();
+        this.setJMenuBar(menuBar);//添加菜单
 
         JLabel modeLabel = new JLabel();
-        modeLabel.setBounds(30, 10, 70, 27);
         modeLabel.setText("请选择模式");
+        Font font=new Font("宋体",Font.PLAIN,14);
+        modeLabel.setFont(font);
         modeLabel.setToolTipText("JLabel");
-        this.add(modeLabel, null);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridwidth = 1;
+        c.gridx = 0;
+        c.gridy = 0;
+        pane.add(modeLabel, c);
 
         box = new JComboBox();
-        box.setBounds(100, modeLabel.getY(), 150, 27);
-
         box.addItem("超级邮箱检索器");
         box.addItem("网站关键词杀手");
-
-        box.addActionListener(new comboxListener());//为下拉列表框添加监听器类
-        this.add(box, null);
+        box.addActionListener(new comboxListener());//为下拉列表框添加监听器
+        c.gridwidth = 2;
+        c.gridx = 1;
+        c.gridy = 0;
+        c.insets = new Insets(10,0,0,0);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        pane.add(box, c);
 
         JLabel enterLabel = new JLabel();
-        enterLabel.setBounds(30, modeLabel.getY() + 50, this.getWidth(), 27);
         enterLabel.setText("请输入需要抓取的起始地址以http开头:");
-        enterLabel.setToolTipText("JLabel");
-        this.add(enterLabel, null);
+        c.gridx = 0;
+        c.gridy = 2;
+        c.gridwidth = 3;
+        c.insets = new Insets(10,0,0,0);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        pane.add(enterLabel, c);
 
         text1 = new JTextArea();
-        text1.setBounds(30, enterLabel.getY() + 30, this.getWidth() - 60, 50);
+       // text1.setBounds(30, enterLabel.getY() + 30, this.getWidth() - 60, 50);
         text1.setLineWrap(true);
-        JScrollPane pan = new JScrollPane(text1);
-        pan.setBounds(text1.getBounds());
-        this.add(pan);
+        JScrollPane span = new JScrollPane(text1);
+        //pan.setBounds(text1.getBounds());
+        //c.ipadx = (int) (height*0.4);
+        c.ipady = 70; // make this component tall
+        c.weightx = 0.0;
+        c.insets = new Insets(10,10,10,10);
+        c.gridx = 0;
+        c.gridy = 3;
+        c.gridwidth = 3;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        pane.add(span, c);
 
         JLabel workingModel = new JLabel();
-        workingModel.setBounds(30, pan.getHeight() + pan.getY() + 20, this.getWidth(), 27);
+        //workingModel.setBounds(30, span.getHeight() + span.getY() + 20, this.getWidth(), 27);
         workingModel.setText("请选择工作模式:");
         workingModel.setToolTipText("JLabel");
-        this.add(workingModel, null);
-
+        c.ipady = 0;
+        c.gridwidth = 1;
+        c.weightx = 0.0;
+        c.gridx = 0;
+        c.gridy = 4;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        pane.add(workingModel, c);
 
         precending = new JRadioButton("precendent", true);
-//        b1.addActionListener(h1);
-        this.add(precending);
-        JRadioButton indexing = new JRadioButton("indexing", false);
-//        b2.addActionListener(h1);
-        this.add(indexing);
+        c.weightx = 0.0;
+        //c.insets = new Insets(10,0,0,0);
+        c.gridwidth = 1;
+        c.gridx = 1;
+        c.gridy = 4;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        pane.add(precending, c);
 
-        precending.setBounds(30, workingModel.getHeight() + workingModel.getY(), 150, 25);
-        indexing.setBounds(30, precending.getHeight() + precending.getY(), 100, 25);
+        JRadioButton indexing = new JRadioButton("indexing", false);
+        c.weightx = 0.0;
+        //c.insets = new Insets(10,0,0,0);
+        c.gridwidth = 1;
+        c.gridx = 2;
+        c.gridy = 4;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        pane.add(indexing, c);
 
         btnGroup = new ButtonGroup();
         btnGroup.add(precending);
         btnGroup.add(indexing);
 
-
         indexingSpinner1 = new JSpinner();
-        indexingSpinner1.setBounds(150, indexing.getY() + 5, 50, 20);
         indexingSpinner1.setValue(0);
-        this.add(indexingSpinner1, null);
+        indexingSpinner1.setPreferredSize(new Dimension(50,30));
+        c.weightx = 0.0;
+        c.gridwidth = 1;
+        c.gridx = 1;
+        c.gridy = 5;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        pane.add(indexingSpinner1, c);
 
         indexingSpinner2 = new JSpinner();
-        indexingSpinner2.setBounds(indexingSpinner1.getX() + 50, indexingSpinner1.getY(), 50, 20);
+        indexingSpinner2.setPreferredSize(new Dimension(50,30));
         indexingSpinner2.setValue(100);
-        this.add(indexingSpinner2, null);
+        c.weightx = 0.0;
+        c.gridwidth = 1;
+        c.gridx = 2;
+        c.gridy = 5;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        pane.add(indexingSpinner2, c);
 
         String disText = "<html><HTML><body style=color:red>请选择抓取速度,量力而行, 数值越大越影响本机速度:</body></html>";
         JLabel speedLabel = new JLabel(disText);
-        speedLabel.setBounds(30, indexing.getHeight() + indexing.getY() + 10, this.getWidth() - 60, 50);
-//        speedLabel.setText("");
         speedLabel.setToolTipText("JLabel");
-        this.add(speedLabel, null);
+        c.gridx = 0;
+        c.gridwidth = 2;
+        c.gridy = 6;
+        pane.add(speedLabel, c);
 
         spinner = new JSpinner();
         spinner.setBounds(30, speedLabel.getHeight() + speedLabel.getY(), this.getWidth() - 60, 20);
         spinner.setValue(10);
-        this.add(spinner, null);
+        c.gridx = 2;
+        c.gridwidth = 1;
+        c.gridy = 6;
+        pane.add(spinner, c);
 
         strictModeBox = new JCheckBox("开启严肃模式");
         strictModeBox.setSelected(true);
-        strictModeBox.setBounds(30, spinner.getHeight() + spinner.getY(), 150, 20);
-        this.add(strictModeBox);
+        c.gridwidth =  1;
+        c.gridx = 2;
+        c.gridy = 7;
+        pane.add(strictModeBox, c);
 
         JLabel addSepLabel = new JLabel("添加@替换,逗号分隔");
-        addSepLabel.setBounds(30, strictModeBox.getHeight() + strictModeBox.getY(), 220, 27);
-        add(addSepLabel);
+        c.ipady = 0; // make this component tall
+        c.gridwidth = 3;
+        c.anchor = GridBagConstraints.WEST;
+        c.gridx = 0;
+        c.gridy = 8;
+        pane.add(addSepLabel, c);
 
         sepText = new JTextArea();
-        sepText.setBounds(30, addSepLabel.getY() + 30, this.getWidth() - 60, 50);
         sepText.setLineWrap(true);
         JScrollPane sepTextpan = new JScrollPane(sepText);
-        sepTextpan.setBounds(sepText.getBounds());
-        this.add(sepTextpan);
+        c.ipady = 40; // make this component tall
+        c.gridwidth = 3;
+        c.gridy = 9;
+        c.insets = new Insets(10,10,10,10);
+        pane.add(sepTextpan, c);
 
         debugModeBox = new JCheckBox("开启debug模式");
         debugModeBox.setSelected(false);
-        debugModeBox.setBounds(30, sepText.getHeight() + sepText.getY(), 150, 20);
-        this.add(debugModeBox);
-        debugModeBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (debugModeBox.isSelected()) {
-                    MainWindow.this.setSize(700, 600);
-                }else {
-                    MainWindow.this.setSize(300, 600);
-                }
-            }
-        });
+        c.gridwidth = 1;
+        c.ipady = 0;
+        c.gridy = 10;
+        c.gridx = 2;
+        pane.add(debugModeBox, c);
+
+//        debugModeBox.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if (debugModeBox.isSelected()) {
+//                    MainWindow.this.setSize(700, 600);
+//                }else {
+//                    MainWindow.this.setSize(300, 600);
+//                }
+//            }
+//        });
 
         startButton = new JButton();
-        startButton.setBounds(30, this.getHeight() - 60 - 60, this.getWidth() - 60, 60);
         startButton.setText("<html><HTML><body style=color:red>开始</body></html>");
         startButton.setToolTipText("开始");
-        this.add(startButton);
-
-
+        c.gridwidth = 3;
+        c.ipady = 40;
+        c.gridy = 11;
+        c.gridx = 0;
+        pane.add(startButton, c);
+        /*
         _logText = new JTextArea();
         _logText.setBounds(300, 0, 400, this.getHeight());
         _logText.setLineWrap(true);
@@ -166,12 +236,12 @@ public class MainWindow extends JFrame {
         _logText.enableInputMethods(false);
         this.add(_logTextpan);
 
+
         MyPrintStream myPrintStream = new MyPrintStream(System.out, _logText);
         System.setOut(myPrintStream);
         System.setErr(myPrintStream);
+        */
 
-//    this.add(this.getSlider(),null);
-//    this.add(this.getSpinner(),null);
     }
 
     public void addCLickLisener(MainWindowListener listener) {
