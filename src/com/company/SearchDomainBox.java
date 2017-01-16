@@ -24,6 +24,17 @@ interface SearchDomainBoxListener {
 
 public class SearchDomainBox extends VBox {
 
+    public boolean isWorking() {
+        return isWorking;
+    }
+
+    public void setWorking(boolean working) {
+        startButton.setText(working?"停止":"开始");
+        isWorking = working;
+    }
+
+    boolean isWorking = false;
+
     public Button getStartButton() {
         return startButton;
     }
