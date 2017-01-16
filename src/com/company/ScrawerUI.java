@@ -27,6 +27,7 @@ import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.SpiderListener;
 import us.codecraft.webmagic.utils.FilePersistentBase;
 
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -54,6 +55,13 @@ public class ScrawerUI extends Application implements SpiderListener{
     CheckBox debugModeBox;
     private TextArea sepText;
     static Spider spider;
+
+    static Spider domainSpider;
+
+    TabPane tabPane;
+    /********* domain para *********/
+    SearchDomainBox searchDomainBox;
+
 
     public static void main(String[] args) {
         launch(args);
@@ -99,68 +107,65 @@ public class ScrawerUI extends Application implements SpiderListener{
             }
         });
 
+        this.addSearchDomainCLickLisener(new SearchDomainBoxListener() {
+            @Override
+            public boolean buttonClicked(boolean on) {
+                try {
+                    if (on) {
+                        return runP();
+                    } else {
+                        return stopP();
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+                return false;
+            }
+        });
+
     }
 
     private boolean stopP () {
-        spider.stop();
+        Spider currentSpider = getFunctionType()?domainSpider:spider;
+        currentSpider.stop();
         return false;
     }
 
     private  boolean runP () throws IOException, InterruptedException {
 
-        int threadNum = this.getThreadNum();
-        String url = this.getUrl();
-
-        if (url.isEmpty()) {
-            this.showAlertWithMessage("请输入网址");
-            return false;
-        }
-        if (!url.startsWith("http")) {
-            this.showAlertWithMessage("网址格式非法");
-            return false;
-        }
-
-        if (threadNum > 10000) {
-            threadNum = 40;
-        } else if (threadNum < 1) {
-            threadNum = 1;
-        }
-
         System.out.println(this.getFunctionType());
-        if (this.getFunctionType() == 1) {
-
-//            System.out.println("请输入需要查询的关键词,用英文隔开, 回车确认:");
-
-            String keywordsStr = "21";
-
+        if (this.getFunctionType() == true) {
+            String url = searchDomainBox.getUrl();
+            if (url.isEmpty()) {
+                showAlertWithMessage("请输入网址");
+                return false;
+            }
+            if (!url.startsWith("http")) {
+                this.showAlertWithMessage("网址格式非法");
+                return false;
+            }
             ///////////////////////////////////////////////
-
-            ArrayList arrayList = new ArrayList();
-            if (keywordsStr.length()>0) {
-                String[] stringsArr = keywordsStr.split(",");
-                for (String string : stringsArr) {
-                    if (StringUtil.isBlank(string)) {
-                        continue;
-                    }
-                    arrayList.add(string.trim());
-                }
-            }else {
-                System.out.println("输入错误");
+            ArrayList keywords = searchDomainBox.getKeywords();
+            if (keywords.isEmpty()) {
+                showAlertWithMessage("请输入关键词");
+                return false;
             }
 
-            KeywordFindingPageProcessor pageProcessor = new KeywordFindingPageProcessor(arrayList);
-            spider = Spider.create(pageProcessor);
+            KeywordFindingPageProcessor pageProcessor = new KeywordFindingPageProcessor(keywords);
+            domainSpider = Spider.create(pageProcessor);
 
 
-            spider.addUrl(url);
-            spider.setExitWhenComplete(true);
+            domainSpider.addUrl(url);
+            domainSpider.setExitWhenComplete(true);
 
             Properties properties = System.getProperties() ;
             String path = properties.getProperty("user.home");
 
             File file = new File(path);
 
-            String outPutPath = file.getAbsolutePath() + separator + spider.getSite().getDomain() + ".csv";
+            String outPutPath = file.getAbsolutePath() + separator + domainSpider.getSite().getDomain() + ".csv";
 
             FilePersistentBase pa = new FilePersistentBase();
             pa.setPath(outPutPath);
@@ -168,11 +173,34 @@ public class ScrawerUI extends Application implements SpiderListener{
             if (!file.exists()) {
                 file.createNewFile();
             }
-            spider.addPipeline(new KeywordPipline(file.getAbsolutePath()));
+            domainSpider.addPipeline(new KeywordPipline(file.getAbsolutePath()));
 
-            spider.thread(threadNum);
+            domainSpider.thread(10);
+
+            LinkedList list = new LinkedList<>();
+            list.add(this);
+            domainSpider.setSpiderListeners(list);
+            domainSpider.runAsync();
 
         } else {
+
+            int threadNum = this.getThreadNum();
+            String url = this.getUrl();
+
+            if (url.isEmpty()) {
+                this.showAlertWithMessage("请输入网址");
+                return false;
+            }
+            if (!url.startsWith("http")) {
+                this.showAlertWithMessage("网址格式非法");
+                return false;
+            }
+
+            if (threadNum > 10000) {
+                threadNum = 40;
+            } else if (threadNum < 1) {
+                threadNum = 1;
+            }
 
             boolean workingMode = this.getWorkingMode();
             int startIndex = this.getStartIndex();
@@ -237,19 +265,21 @@ public class ScrawerUI extends Application implements SpiderListener{
             }
 
             spider.setExitWhenComplete(true);
+            LinkedList list = new LinkedList<>();
+            list.add(this);
+            spider.setSpiderListeners(list);
+            spider.runAsync();
 
         }
 
-        LinkedList list = new LinkedList<>();
-        list.add(this);
-        spider.setSpiderListeners(list);
-        spider.runAsync();
+
         return true;
     }
 
     @Override
     public void onSuccess(Request request) {
-        int thread = spider.getThreadAlive();
+        Spider currentSpider = getFunctionType()?domainSpider:spider;
+        int thread = currentSpider.getThreadAlive();
         if (thread == 0) {
             this.showAlertWithMessage("抓取成功,请在桌面查看");
             this.startScrawling(false);
@@ -299,25 +329,46 @@ public class ScrawerUI extends Application implements SpiderListener{
     }
 
     public void startScrawling (boolean start) {
-        if (start) {
-            startButton.setText("结束");
+        if (getFunctionType()) {
+            if (start) {
+                searchDomainBox.getStartButton().setText("结束");
+            } else  {
+                searchDomainBox.getStartButton().setText("开始");
+            }
         } else  {
-            startButton.setText("开始");
+            if (start) {
+                startButton.setText("结束");
+            } else  {
+                startButton.setText("开始");
+            }
         }
+
     }
 
     public void addCLickLisener(CrawlerListener listener) {
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                boolean suc = listener.buttonClicked(startButton.getText() == "开始");
+                boolean suc = listener.buttonClicked(startButton.getText().equals("开始"));
                 startScrawling(suc);
             }
         });
     }
 
-    public int getFunctionType() {
-        return 0;
+    public void addSearchDomainCLickLisener(SearchDomainBoxListener listener) {
+        searchDomainBox.getStartButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                boolean suc = listener.buttonClicked(searchDomainBox.getStartButton().getText().equals("开始"));
+                startScrawling(suc);
+            }
+        });
+    }
+
+
+    public boolean getFunctionType() {
+        SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+        return selectionModel.isSelected(1);
     }
 
     public String getUrl() {
@@ -362,18 +413,13 @@ public class ScrawerUI extends Application implements SpiderListener{
 
     private MenuBar getMenu() {
             MenuBar menuBar = new MenuBar();
+        menuBar.setPadding(new Insets(0,0,0,0));
             Menu m1 = new Menu();
             m1.setText("文件");
             Menu m2 = new Menu();
             m2.setText("编辑");
             Menu m3 = new Menu();
             m3.setText("帮助");
-            m3.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-//                    OptionPane.showMessageDialog(null, "网址问题", "请输入网址", OptionPane.INFORMATION_MESSAGE);
-                }
-            });
 
             MenuItem item11 = new MenuItem();
             item11.setText("打开");
@@ -395,6 +441,12 @@ public class ScrawerUI extends Application implements SpiderListener{
             item32.setText("搜索");
             MenuItem item33 = new MenuItem();
             item33.setText("版本信息");
+            item33.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    showAlertWithMessage("版本信息");
+                }
+            });
 
             m1.getItems().addAll(item11,item12,item13);
             m2.getItems().addAll(item21,item22, item23);
@@ -405,27 +457,26 @@ public class ScrawerUI extends Application implements SpiderListener{
     }
 
     private void createUI(Stage primaryStage) {
+
         VBox vbox = new VBox(10);
         vbox.setPadding(new Insets(10,10,10,10));
         vbox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-
-        vbox.getChildren().add(getMenu());
         /**************** 1 ********************/
-        GridPane gridPane = new GridPane();
-        gridPane.setHgap(30);
-        vbox.setPadding(new Insets(10,10,10,10));
-        Text title = new Text("请选择模式");
-        title.textAlignmentProperty().set(TextAlignment.CENTER);
-        title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        gridPane.add(title, 0, 0);
+//        GridPane gridPane = new GridPane();
+//        gridPane.setHgap(30);
+//        vbox.setPadding(new Insets(10,10,10,10));
+//        Text title = new Text("请选择模式");
+//        title.textAlignmentProperty().set(TextAlignment.CENTER);
+//        title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+//        gridPane.add(title, 0, 0);
 
-        ComboBox box = new ComboBox();
-        box.getItems().add("超级邮箱检索器");
-        box.getItems().add("网站关键词杀手");
-        box.getSelectionModel().select(0);
-        gridPane.add(box, 1, 0);
+//        ComboBox box = new ComboBox();
+//        box.getItems().add("超级邮箱检索器");
+//        box.getItems().add("网站关键词杀手");
+//        box.getSelectionModel().select(0);
+//        gridPane.add(box, 1, 0);
 
-        vbox.getChildren().add(gridPane);
+//        vbox.getChildren().add(gridPane);
 
         /**************** 2 ********************/
         Text httpHint = new Text("请输入需要抓取的起始地址以http开头:");
@@ -515,9 +566,26 @@ public class ScrawerUI extends Application implements SpiderListener{
         startButton.setMaxWidth(Double.MAX_VALUE);
         vbox.getChildren().add(startButton);
 
-        Scene scene = new Scene(vbox);
+
+
+        Tab searchEmailPan = new Tab("    邮箱关键词检索器    ", vbox);
+        searchEmailPan.setClosable(false);
+
+        searchDomainBox = getSearchDomainBox();
+        Tab domainSearchTab = new Tab("    全站关键词搜索    ", searchDomainBox);
+        domainSearchTab.setClosable(false);
+        tabPane = new TabPane(searchEmailPan, domainSearchTab);
+
+        BorderPane pane = new BorderPane(tabPane, getMenu(), null, null, null);
+
+        Scene scene = new Scene(pane);
         primaryStage.setScene(scene);
         primaryStage.setTitle("网站信息提取系统");
         primaryStage.show();
+    }
+
+    SearchDomainBox getSearchDomainBox() {
+        SearchDomainBox domainSearchVbox = new SearchDomainBox(10);
+        return domainSearchVbox;
     }
 }

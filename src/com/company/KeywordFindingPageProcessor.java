@@ -34,11 +34,10 @@ public class KeywordFindingPageProcessor implements PageProcessor {
         if (page.getUrl().regex(this.regKeywords).match()) {
             page.putField("url", url);
         } else  {
-            page.addTargetRequests(page.getHtml().links().all());
+            //page.addTargetRequests(page.getHtml().links().all());
         }
 
-//        page.addTargetRequests(page.getHtml().links().regex(this.regKeywords).all());
-
+        page.addTargetRequests(page.getHtml().links().all());
 
 
     }
