@@ -19,12 +19,23 @@ class GithubRepoPageProcessor implements PageProcessor {
 
     private Site site = Site.me().setRetryTimes(3).setSleepTime(100).setTimeOut(60000);
     private String regString = null;
+
+    private boolean backspaceHead;
+    private boolean backspaceTail;
+
     public boolean strict = false;
     public String[] operators;
     public int depth = 0;
     public int maxDepth = 1;
     GithubRepoPageProcessor(boolean strict) {
         this.strict = strict;
+    }
+
+    GithubRepoPageProcessor(boolean strict, boolean backspaceHead, boolean backspaceTail) {
+        super();
+        this.strict = strict;
+        this.backspaceHead = backspaceHead;
+        this.backspaceTail = backspaceTail;
     }
 
     @Override
@@ -45,7 +56,9 @@ class GithubRepoPageProcessor implements PageProcessor {
             emailRex = "\'(.*)@(.*)\'";
             special = true;
         }
+
         Selectable selectablem;
+
         if (operators!=null && operators.length>0){
             String atRegex = "";
             if (operators.length == 1) {
@@ -58,12 +71,31 @@ class GithubRepoPageProcessor implements PageProcessor {
                     }
                 }
             }
+            if (backspaceHead) {
+                atRegex = "\\s*" + atRegex;
+            }
+
+            if (backspaceHead) {
+                atRegex = atRegex + "\\s*";
+            }
+
             selectablem = page.getHtml().replace(atRegex, "@");
         } else {
             selectablem = page.getHtml();
         }
+
+        /*全局匹配*/
+        /*
+        Selectable selectablem = page.getHtml();
+        if (operators!=null && operators.length>0) {
+            for (int i = 0; i < operators.length; i++) {
+                selectablem = selectablem.replace(operators[i], "@");
+            }
+        }
+        */
 // 包含@
 
+        //System.out.println(selectablem);
 //        String emailRex = "/[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?/
 
 //        page.putField("email", page.getHtml().regex(emailRex));

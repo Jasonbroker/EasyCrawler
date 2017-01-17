@@ -1,9 +1,6 @@
 package com.company;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Properties;
 
 import static java.io.File.separator;
@@ -13,6 +10,7 @@ import static java.io.File.separator;
  */
 public class FileHelper {
 
+    static PrintWriter printWriter;
     public static String jarPath() {
         return Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 
@@ -33,6 +31,14 @@ public class FileHelper {
         String path = properties.getProperty("user.home");
         File file = new File(path);
         return  file.getAbsolutePath() + separator + "Desktop"+ separator + filename;
+    }
+
+    public static void writeToConfigFile(String string) throws IOException {
+        if (printWriter == null) {
+            printWriter = new PrintWriter(new FileWriter(pathInCodeFolder("config.txt"), false));
+        }
+        printWriter.print(string);
+        printWriter.close();
     }
 
     public static String readFileByLines(String fileName) throws IOException {

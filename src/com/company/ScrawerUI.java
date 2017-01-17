@@ -1,4 +1,5 @@
-package com.company;/**
+package com.company;
+/**
  * Created by jason on 15/01/2017.
  */
 
@@ -48,7 +49,7 @@ public class ScrawerUI extends Application implements SpiderListener{
         }
         searchEmailBox.setSeperator(ats);
 
-        this.addCLickLisener(new CrawlerListener() {
+        searchEmailBox.addCLickLisener(new SearchEmailBoxListener() {
             @Override
             public boolean buttonClicked(boolean on) {
                 try {
@@ -64,9 +65,17 @@ public class ScrawerUI extends Application implements SpiderListener{
                 }
                 return true;
             }
+
+            public void saveButtonPressedWithText(String string) {
+                try {
+                    FileHelper.writeToConfigFile(string);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         });
 
-        this.addSearchDomainCLickLisener(new SearchDomainBoxListener() {
+        searchDomainBox.addCLickLisener(new SearchDomainBoxListener() {
             @Override
             public boolean buttonClicked(boolean on) {
                 try {
@@ -162,9 +171,10 @@ public class ScrawerUI extends Application implements SpiderListener{
             int endIndex = searchEmailBox.getEndIndex();
             boolean strictMode = searchEmailBox.enableStrictMode();
             String ats = searchEmailBox.getSeperator();
+            System.out.println("custom seperator:"+ats);
             //////////////////////////////////////////////////////////////////////////////////////
 
-            GithubRepoPageProcessor pageProcessor = new GithubRepoPageProcessor(false);
+            GithubRepoPageProcessor pageProcessor = new GithubRepoPageProcessor(false, searchEmailBox.getBackSpaceHead(), searchEmailBox.getBackSpaceTail());
             spider = Spider.create(pageProcessor);
 
             ArrayList urls = new ArrayList();
@@ -257,7 +267,7 @@ public class ScrawerUI extends Application implements SpiderListener{
 
 
 
-    public void startScrawling (boolean start) {
+    void startScrawling (boolean start) {
         if (getFunctionType()) {
             searchDomainBox.setWorking(start);
         } else  {
@@ -265,15 +275,7 @@ public class ScrawerUI extends Application implements SpiderListener{
         }
     }
 
-    public void addCLickLisener(CrawlerListener listener) {
-        searchEmailBox.getStartButton().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                boolean suc = listener.buttonClicked(!searchEmailBox.isWorking());
-                startScrawling(!searchEmailBox.isWorking());
-            }
-        });
-    }
+
 
     public void addSearchDomainCLickLisener(SearchDomainBoxListener listener) {
         searchDomainBox.getStartButton().setOnAction(new EventHandler<ActionEvent>() {

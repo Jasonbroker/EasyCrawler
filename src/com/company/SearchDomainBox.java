@@ -24,6 +24,8 @@ interface SearchDomainBoxListener {
 
 public class SearchDomainBox extends VBox {
 
+    private SearchDomainBoxListener listener;
+
     public boolean isWorking() {
         return isWorking;
     }
@@ -98,6 +100,10 @@ public class SearchDomainBox extends VBox {
             System.out.println("输入错误");
         }
         return arrayList;
+    }
+
+    void addCLickLisener(SearchDomainBoxListener searchEmailBoxListener) {
+        listener = searchEmailBoxListener;
     }
 
 }
