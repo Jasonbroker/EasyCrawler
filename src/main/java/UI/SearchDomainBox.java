@@ -1,13 +1,13 @@
 package UI;
 
+import Helper.MetaDataHelper;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextArea;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import org.jsoup.helper.StringUtil;
 
 import java.util.ArrayList;
@@ -31,47 +31,40 @@ public class SearchDomainBox extends VBox {
 
     boolean isWorking = false;
 
-    public Button getStartButton() {
-        return startButton;
-    }
+    private JFXButton startButton;
 
-    public void setStartButton(Button startButton) {
-        this.startButton = startButton;
-    }
-
-    private Button startButton;
-
-    TextArea urlText;
-    TextArea keywordText;
+    JFXTextArea urlText;
+    JFXTextArea keywordText;
 
     public SearchDomainBox(double spacing) {
         super(spacing);
+        this.setStyle("-fx-background-color:#FFFFFF;");
 
-        this.setPadding(new Insets(10,10,10,10));
-        Text httpHint = new Text("请输入需要抓取的起始地址以http开头:");
+        this.setPadding(new Insets(20, 20, 20, 20));
+        Label httpHint = new Label("the url to crawl, starting with http:".toUpperCase());
         this.getChildren().add(httpHint);
 
-        urlText = new TextArea();
+        urlText = gennerateTextArea();
         urlText.setWrapText(true);
         urlText.setPrefSize(300, 80);
         urlText.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         this.getChildren().add(urlText);
 
-        Text keywordHint = new Text("请输入要检索的关键词,用英文逗号隔开");
+        Label keywordHint = new Label("请输入要检索的关键词,用英文逗号隔开");
         this.getChildren().add(keywordHint);
 
-        keywordText = new TextArea();
+        keywordText = gennerateTextArea();
         keywordText.setWrapText(true);
         keywordText.setPrefSize(300, 80);
         keywordText.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         this.getChildren().add(keywordText);
 
 
-        startButton = new Button("开始");
+        startButton = new JFXButton("开始");
         startButton.setFont(Font.font(18));
-        startButton.setTextFill(Color.RED);
         startButton.setMinWidth(40);
         startButton.setMaxWidth(Double.MAX_VALUE);
+        startButton.getStyleClass().add("button-raised");
         this.getChildren().add(startButton);
     }
 
@@ -94,6 +87,14 @@ public class SearchDomainBox extends VBox {
             System.out.println("输入错误");
         }
         return arrayList;
+    }
+
+    private JFXTextArea gennerateTextArea() {
+        JFXTextArea textArea = new JFXTextArea();
+        textArea.setUnFocusColor(Color.color(0.1, 0.1, 0.1, 0.1));
+        textArea.setFocusColor(MetaDataHelper.appThemeColor());
+        textArea.setWrapText(true);
+        return textArea;
     }
 
     public void addCLickLisener(SearchDomainBoxListener searchEmailBoxListener) {

@@ -1,23 +1,23 @@
-/**
+package Crawler; /**
  * Created by jason on 18/01/2017.
  */
 
-import Crawler.KeywordFindingPageProcessor;
-import Crawler.KeywordPipline;
-import Crawler.PendingPipline;
-import Crawler.EmailPageProcessor;
 import Helper.FileHelper;
-import UI.SearchDomainBox;
-import UI.SearchDomainBoxListener;
-import UI.SearchEmailBox;
-import UI.SearchEmailBoxListener;
+import Helper.MetaDataHelper;
+import UI.*;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
+import com.jfoenix.controls.JFXTabPane;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.control.Label;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Spider;
@@ -34,11 +34,12 @@ import java.util.Properties;
 
 import static java.io.File.separator;
 
-public class CrawlerUI extends Application implements SpiderListener {
+public class Main extends Application implements SpiderListener {
 
     static Spider spider;
     static Spider domainSpider;
 
+    StackPane motherPane;
     TabPane tabPane;
     SearchEmailBox searchEmailBox;
     SearchDomainBox searchDomainBox;
@@ -120,17 +121,17 @@ public class CrawlerUI extends Application implements SpiderListener {
         if (this.getFunctionType() == true) {
             String url = searchDomainBox.getUrl();
             if (url.isEmpty()) {
-                showAlertWithMessage("请输入网址");
+                showAlertWithMessage("URL ERROR", "Please enter the right web url, which is prefixed with http:// ");
                 return false;
             }
             if (!url.startsWith("http")) {
-                this.showAlertWithMessage("网址格式非法");
+                this.showAlertWithMessage("URL ERROR", "Please enter the right web url, which is prefixed with http://");
                 return false;
             }
             ///////////////////////////////////////////////
             ArrayList keywords = searchDomainBox.getKeywords();
             if (keywords.isEmpty()) {
-                showAlertWithMessage("请输入关键词");
+                showAlertWithMessage("ERROR", "Please enter the right web url, which is prefixed with http://");
                 return false;
             }
 
@@ -165,11 +166,11 @@ public class CrawlerUI extends Application implements SpiderListener {
             String url = searchEmailBox.getUrl();
 
             if (url.isEmpty()) {
-                this.showAlertWithMessage("请输入网址");
+                this.showAlertWithMessage("URL ERROR", "Please enter the right web url, which is prefixed with http://");
                 return false;
             }
             if (!url.startsWith("http")) {
-                this.showAlertWithMessage("网址格式非法");
+                this.showAlertWithMessage("URL ERROR", "Please enter the right web url, which is prefixed with http://");
                 return false;
             }
 
@@ -197,6 +198,7 @@ public class CrawlerUI extends Application implements SpiderListener {
 
                 if (!url.contains("$")) {
                     System.out.println("输入错误!\n请输入要查询的地址,请去除其中的有序索引数字, 使用$代替:");
+                    showAlertWithMessage("WRONG INPUT", "PLEASE USE $ TO INSTEAD THE NUMERIC.");
                     return false;
                 }
 
@@ -259,7 +261,7 @@ public class CrawlerUI extends Application implements SpiderListener {
         Spider currentSpider = getFunctionType()?domainSpider:spider;
         int thread = currentSpider.getThreadAlive();
         if (thread == 0) {
-            this.showAlertWithMessage("抓取成功,请在桌面查看");
+            this.showAlertWithMessage("Done", "抓取成功,请在桌面查看");
             this.startScrawling(false);
         }
     }
@@ -269,13 +271,28 @@ public class CrawlerUI extends Application implements SpiderListener {
 
     }
 
-    private void showAlertWithMessage(String message) {
+    private void showAlertWithMessage(String title, String message) {
 
-        Alert alert = new Alert(Alert.AlertType.WARNING, message , ButtonType.YES);
-        alert.showAndWait();
-        if (alert.getResult() == ButtonType.YES) {
-            //do stuff
-        }
+        JFXDialogLayout layout = new JFXDialogLayout();
+        layout.setPrefWidth(motherPane.getWidth() * 0.8);
+        layout.setPadding(new Insets(10, 10., 10, 10));
+
+        Label heading = new Label(title);
+        heading.setFont(new Font(15));
+        layout.setHeading(heading);
+        Label messLabel = new Label(message);
+        messLabel.setWrapText(true);
+        layout.setBody(messLabel);
+        JFXButton accept = new JFXButton(" OK ");
+        layout.setActions(accept);
+
+        JFXDialog dialog = new JFXDialog(motherPane, layout, JFXDialog.DialogTransition.CENTER);
+
+        accept.setOnMouseClicked((e) -> {
+            dialog.close();
+        });
+
+        dialog.show();
     }
 
 
@@ -294,72 +311,47 @@ public class CrawlerUI extends Application implements SpiderListener {
         return selectionModel.isSelected(1);
     }
 
-    private MenuBar getMenu() {
-        MenuBar menuBar = new MenuBar();
-        menuBar.setPadding(new Insets(0,0,0,0));
-        Menu m1 = new Menu();
-        m1.setText("文件");
-        Menu m2 = new Menu();
-        m2.setText("编辑");
-        Menu m3 = new Menu();
-        m3.setText("帮助");
-
-        MenuItem item11 = new MenuItem();
-        item11.setText("打开");
-        MenuItem item12 = new MenuItem();
-        item12.setText("保存");
-        MenuItem item13 = new MenuItem();
-        item13.setText("退出");
-
-        MenuItem item21 = new MenuItem();
-        item21.setText("复制");
-        MenuItem item22 = new MenuItem();
-        item22.setText("拷贝");
-        MenuItem item23 = new MenuItem();
-        item23.setText("剪切");
-
-        MenuItem item31 = new MenuItem();
-        item31.setText("欢迎");
-        MenuItem item32 = new MenuItem();
-        item32.setText("搜索");
-        MenuItem item33 = new MenuItem();
-        item33.setText("版本信息");
-        item33.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                showAlertWithMessage("版本信息");
-            }
-        });
-
-        m1.getItems().addAll(item11,item12,item13);
-        m2.getItems().addAll(item21,item22, item23);
-        m3.getItems().addAll(item31,item32, item33);
-        menuBar.getMenus().addAll(m1,m2,m3);
-
-        return menuBar;
-    }
-
     private void createUI(Stage primaryStage) {
 
         searchEmailBox = getSearchEmailBox();
-        Tab searchEmailPan = new Tab("    邮箱关键词检索器    ", searchEmailBox);
+        Tab searchEmailPan = new Tab("Email", searchEmailBox);
         searchEmailPan.setClosable(false);
 
         searchDomainBox = getSearchDomainBox();
-        Tab domainSearchTab = new Tab("    全站关键词搜索    ", searchDomainBox);
+        Tab domainSearchTab = new Tab("Keyword", searchDomainBox);
         domainSearchTab.setClosable(false);
 
-        tabPane = new TabPane(searchEmailPan, domainSearchTab);
-        BorderPane pane = new BorderPane(tabPane, getMenu(), null, null, null);
+        Settings settings = new Settings();
+        Tab settingTab = new Tab("Setting", settings);
+        settingTab.setClosable(false);
+
+        tabPane = new JFXTabPane();
+        tabPane.setTabMinHeight(44);
+        ZCTabPaneSkin skin = new ZCTabPaneSkin(tabPane);
+        skin.setDefaultColor(MetaDataHelper.appThemeColor());
+        tabPane.setSkin(skin);
+
+
+        String style = tabPane.getStyle();
+        System.out.print("******" + style);
+        tabPane.getTabs().addAll(searchEmailPan, domainSearchTab, settingTab);
+        StackPane pane = new StackPane(tabPane);
+        motherPane = pane;
 
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);
+        String str = Main.class.getResource("/css/jfoenix-components.css").toExternalForm();
+        scene.getStylesheets().add(str);
         primaryStage.setTitle("网站信息提取系统");
         primaryStage.show();
     }
 
-    SearchDomainBox getSearchDomainBox() {return new SearchDomainBox(10);}
+    SearchDomainBox getSearchDomainBox() {
+        return new SearchDomainBox(20);
+    }
 
-    SearchEmailBox getSearchEmailBox() {return new SearchEmailBox(10);}
+    SearchEmailBox getSearchEmailBox() {
+        return new SearchEmailBox(20);
+    }
 }
 
