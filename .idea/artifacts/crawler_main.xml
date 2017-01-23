@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="javafx" build-on-make="true" name="crawer_main">
-    <output-path>$PROJECT_DIR$/out/artifacts/crawer_main</output-path>
+  <artifact type="javafx" build-on-make="true" name="crawler_main">
+    <output-path>$PROJECT_DIR$/out/artifacts/crawler_main</output-path>
     <properties id="javafx-properties">
       <options>
         <option name="appClass" value="Crawler.Main" />

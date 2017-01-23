@@ -2,23 +2,15 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="crawer_main" />
+      <artifact name="crawler_main" />
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eccacf04-815f-426c-809a-af192368417e" name="Default" comment="firstchange">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/Helper/UserConfigManager.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/UI/ComponentFactory.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/UI/SettingsListener.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/artifacts/crawer_main.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/crawler_main.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Crawler/EmailPageProcessor.java" afterPath="$PROJECT_DIR$/src/main/java/Crawler/EmailPageProcessor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Crawler/Main.java" afterPath="$PROJECT_DIR$/src/main/java/Crawler/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Helper/FileHelper.java" afterPath="$PROJECT_DIR$/src/main/java/Helper/FileHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Helper/MetaDataHelper.java" afterPath="$PROJECT_DIR$/src/main/java/Helper/MetaDataHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/UI/SearchDomainBox.java" afterPath="$PROJECT_DIR$/src/main/java/UI/SearchDomainBox.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/UI/SearchEmailBox.java" afterPath="$PROJECT_DIR$/src/main/java/UI/SearchEmailBox.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/UI/Settings.java" afterPath="$PROJECT_DIR$/src/main/java/UI/Settings.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/UI/ZCTabPaneSkin.java" afterPath="$PROJECT_DIR$/src/main/java/UI/ZCTabPaneSkin.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/css/jfoenix-components.css" afterPath="$PROJECT_DIR$/src/main/resources/css/jfoenix-components.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/css/jfoenix-main-demo.css" afterPath="$PROJECT_DIR$/src/main/resources/css/jfoenix-main-demo.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/fxml/Main.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/Main.fxml" />
@@ -82,15 +74,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/Crawler/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="104" column="23" selection-start-line="104" selection-start-column="23" selection-end-line="104" selection-end-column="23" />
+            <state relative-caret-position="251">
+              <caret line="332" column="57" selection-start-line="332" selection-start-column="57" selection-end-line="332" selection-end-column="57" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2328#2329#0" expanded="true" />
-                <element signature="e#2370#2371#0" expanded="true" />
+                <element signature="e#2240#2241#0" expanded="true" />
+                <element signature="e#2282#2283#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -119,47 +111,19 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/UI/SearchEmailBox.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="2820">
-              <caret line="201" column="50" selection-start-line="201" selection-start-column="50" selection-end-line="201" selection-end-column="50" />
+              <caret line="194" column="50" selection-start-line="194" selection-start-column="50" selection-end-line="194" selection-end-column="50" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#8618#8619#0" expanded="true" />
-                <element signature="e#8668#8669#0" expanded="true" />
-                <element signature="e#9559#9560#0" expanded="true" />
-                <element signature="e#9611#9612#0" expanded="true" />
-                <element signature="e#9733#9734#0" expanded="true" />
-                <element signature="e#9773#9774#0" expanded="true" />
-                <element signature="e#9814#9815#0" expanded="true" />
-                <element signature="e#9866#9867#0" expanded="true" />
-                <element signature="e#10013#10014#0" expanded="true" />
-                <element signature="e#10065#10066#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FileHelper.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Helper/FileHelper.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="754">
-              <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-              <folding>
-                <element signature="e#1332#1333#0" expanded="true" />
-                <element signature="e#1401#1402#0" expanded="true" />
-                <element signature="e#1459#1460#0" expanded="true" />
-                <element signature="e#1529#1530#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SearchDomainBox.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/UI/SearchDomainBox.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="428">
-              <caret line="65" column="78" selection-start-line="65" selection-start-column="8" selection-end-line="65" selection-end-column="78" />
-              <folding>
-                <element signature="e#2285#2286#0" expanded="true" />
-                <element signature="e#2325#2326#0" expanded="true" />
+                <element signature="e#8369#8370#0" expanded="true" />
+                <element signature="e#8423#8424#0" expanded="true" />
+                <element signature="e#9314#9315#0" expanded="true" />
+                <element signature="e#9366#9367#0" expanded="true" />
+                <element signature="e#9488#9489#0" expanded="true" />
+                <element signature="e#9528#9529#0" expanded="true" />
+                <element signature="e#9569#9570#0" expanded="true" />
+                <element signature="e#9621#9622#0" expanded="true" />
+                <element signature="e#9768#9769#0" expanded="true" />
+                <element signature="e#9820#9821#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -168,22 +132,13 @@
       <file leaf-file-name="Settings.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/UI/Settings.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="60" column="63" selection-start-line="60" selection-start-column="63" selection-end-line="60" selection-end-column="63" />
+            <state relative-caret-position="240">
+              <caret line="51" column="35" selection-start-line="51" selection-start-column="35" selection-end-line="51" selection-end-column="35" />
               <folding>
+                <element signature="imports" expanded="true" />
                 <element signature="e#552#553#0" expanded="true" />
-                <element signature="e#581#582#0" expanded="true" />
+                <element signature="e#595#596#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ComponentFactory.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/UI/ComponentFactory.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="52">
-              <caret line="28" column="31" selection-start-line="28" selection-start-column="31" selection-end-line="28" selection-end-column="31" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -536,9 +491,9 @@
         <option value="$PROJECT_DIR$/src/main/java/Crawler/EmailPageProcessor.java" />
         <option value="$PROJECT_DIR$/src/main/java/Helper/UserConfigManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/UI/SettingsListener.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Crawler/Main.java" />
-        <option value="$PROJECT_DIR$/src/main/java/UI/Settings.java" />
         <option value="$PROJECT_DIR$/src/main/java/UI/ComponentFactory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/UI/Settings.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Crawler/Main.java" />
       </list>
     </option>
   </component>
@@ -907,6 +862,42 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="out" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="crawer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="crawler" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="build" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="crawer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="crawler" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="build" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="classes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1280,7 +1271,14 @@
       <option name="project" value="LOCAL" />
       <updated>1485140071653</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="firstchange">
+      <created>1485157329045</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1485157329045</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1327,9 +1325,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="firstchange" />
     <MESSAGE value="add theme" />
-    <option name="LAST_COMMIT_MESSAGE" value="add theme" />
+    <MESSAGE value="firstchange" />
+    <option name="LAST_COMMIT_MESSAGE" value="firstchange" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -1654,19 +1652,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Helper/FileHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="754">
-          <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-          <folding>
-            <element signature="e#1332#1333#0" expanded="true" />
-            <element signature="e#1401#1402#0" expanded="true" />
-            <element signature="e#1459#1460#0" expanded="true" />
-            <element signature="e#1529#1530#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Helper/MetaDataHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
@@ -1676,7 +1661,7 @@
             <element signature="e#1067#1068#0" expanded="true" />
             <element signature="e#1099#1100#0" expanded="true" />
             <element signature="e#1153#1154#0" expanded="true" />
-            <element signature="e#1210#1211#0" expanded="true" />
+            <element signature="e#1211#1212#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1722,14 +1707,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Crawler/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/UI/ComponentFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="104" column="23" selection-start-line="104" selection-start-column="23" selection-end-line="104" selection-end-column="23" />
+        <state relative-caret-position="52">
+          <caret line="27" column="31" selection-start-line="27" selection-start-column="31" selection-end-line="27" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/UI/SearchDomainBox.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="57" column="78" selection-start-line="57" selection-start-column="8" selection-end-line="57" selection-end-column="78" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2328#2329#0" expanded="true" />
-            <element signature="e#2370#2371#0" expanded="true" />
+            <element signature="e#2053#2054#0" expanded="true" />
+            <element signature="e#2093#2094#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Helper/FileHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="754">
+          <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+          <folding>
+            <element signature="e#1389#1390#0" expanded="true" />
+            <element signature="e#1458#1459#0" expanded="true" />
+            <element signature="e#1516#1517#0" expanded="true" />
+            <element signature="e#1586#1587#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1737,50 +1742,44 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/UI/SearchEmailBox.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2820">
-          <caret line="201" column="50" selection-start-line="201" selection-start-column="50" selection-end-line="201" selection-end-column="50" />
+          <caret line="194" column="50" selection-start-line="194" selection-start-column="50" selection-end-line="194" selection-end-column="50" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#8618#8619#0" expanded="true" />
-            <element signature="e#8668#8669#0" expanded="true" />
-            <element signature="e#9559#9560#0" expanded="true" />
-            <element signature="e#9611#9612#0" expanded="true" />
-            <element signature="e#9733#9734#0" expanded="true" />
-            <element signature="e#9773#9774#0" expanded="true" />
-            <element signature="e#9814#9815#0" expanded="true" />
-            <element signature="e#9866#9867#0" expanded="true" />
-            <element signature="e#10013#10014#0" expanded="true" />
-            <element signature="e#10065#10066#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/UI/SearchDomainBox.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="428">
-          <caret line="65" column="78" selection-start-line="65" selection-start-column="8" selection-end-line="65" selection-end-column="78" />
-          <folding>
-            <element signature="e#2285#2286#0" expanded="true" />
-            <element signature="e#2325#2326#0" expanded="true" />
+            <element signature="e#8369#8370#0" expanded="true" />
+            <element signature="e#8423#8424#0" expanded="true" />
+            <element signature="e#9314#9315#0" expanded="true" />
+            <element signature="e#9366#9367#0" expanded="true" />
+            <element signature="e#9488#9489#0" expanded="true" />
+            <element signature="e#9528#9529#0" expanded="true" />
+            <element signature="e#9569#9570#0" expanded="true" />
+            <element signature="e#9621#9622#0" expanded="true" />
+            <element signature="e#9768#9769#0" expanded="true" />
+            <element signature="e#9820#9821#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/UI/Settings.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="60" column="63" selection-start-line="60" selection-start-column="63" selection-end-line="60" selection-end-column="63" />
+        <state relative-caret-position="240">
+          <caret line="51" column="35" selection-start-line="51" selection-start-column="35" selection-end-line="51" selection-end-column="35" />
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="e#552#553#0" expanded="true" />
-            <element signature="e#581#582#0" expanded="true" />
+            <element signature="e#595#596#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/UI/ComponentFactory.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/Crawler/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="52">
-          <caret line="28" column="31" selection-start-line="28" selection-start-column="31" selection-end-line="28" selection-end-column="31" />
-          <folding />
+        <state relative-caret-position="251">
+          <caret line="332" column="57" selection-start-line="332" selection-start-column="57" selection-end-line="332" selection-end-column="57" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2240#2241#0" expanded="true" />
+            <element signature="e#2282#2283#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1793,7 +1792,7 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
-          <last-edited>crawer_main</last-edited>
+          <last-edited>crawler_main</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

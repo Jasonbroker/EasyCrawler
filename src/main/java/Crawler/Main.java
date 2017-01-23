@@ -2,7 +2,6 @@ package Crawler; /**
  * Created by jason on 18/01/2017.
  */
 
-import Helper.FileHelper;
 import Helper.MetaDataHelper;
 import Helper.UserConfigManager;
 import UI.*;
@@ -31,7 +30,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Properties;
 
 import static java.io.File.separator;
 
@@ -102,6 +100,7 @@ public class Main extends Application implements SpiderListener {
 
         settings.addCLickLisener(() -> {
             saveData();
+            showAlertWithMessage("SETTING", "Settings saved!");
         });
 
     }
@@ -115,6 +114,7 @@ public class Main extends Application implements SpiderListener {
     private  boolean runP () throws IOException, InterruptedException {
 
         System.out.println(this.getFunctionType());
+        String outputDirectory = settings.getFolder();
         if (this.getFunctionType() == true) {
             String url = searchDomainBox.getUrl();
             if (url.isEmpty()) {
@@ -139,7 +139,7 @@ public class Main extends Application implements SpiderListener {
             domainSpider.addUrl(url);
             domainSpider.setExitWhenComplete(true);
 
-            String outPutPath = FileHelper.desktopPathWithFileName("web_" + domainSpider.getSite().getDomain() + ".csv");
+            String outPutPath = outputDirectory + separator + "web_" + domainSpider.getSite().getDomain() + ".csv";
             System.out.println(outPutPath);
 
             FilePersistentBase pa = new FilePersistentBase();
@@ -209,14 +209,9 @@ public class Main extends Application implements SpiderListener {
             }
             spider.thread(threadNum);
 
-            Properties properties = System.getProperties() ;
-            String path = properties.getProperty("user.home");
+            String outPutPath = outputDirectory + separator + spider.getSite().getDomain() + ".csv";
 
-            File com = new File(path);
-
-            String outPutPath = com.getAbsolutePath() + separator +"Desktop"+ separator + spider.getSite().getDomain() + ".csv";
-
-            System.out.println("存储位置:\n" + outPutPath);
+            System.out.println("saving place: \n" + outPutPath);
 
             FilePersistentBase pa = new FilePersistentBase();
             pa.setPath(outPutPath);
@@ -318,7 +313,7 @@ public class Main extends Application implements SpiderListener {
         Tab domainSearchTab = new Tab(" Keywords ", searchDomainBox);
         domainSearchTab.setClosable(false);
 
-        settings = new Settings("");
+        settings = new Settings(20);
         Tab settingTab = new Tab(" Setting ", settings);
         settingTab.setClosable(false);
 
@@ -335,7 +330,7 @@ public class Main extends Application implements SpiderListener {
         primaryStage.setScene(scene);
         String str = Main.class.getResource("/css/jfoenix-components.css").toExternalForm();
         scene.getStylesheets().add(str);
-        primaryStage.setTitle("网站信息提取系统");
+        primaryStage.setTitle("web crawler".toUpperCase());
         primaryStage.show();
     }
 
@@ -366,6 +361,8 @@ public class Main extends Application implements SpiderListener {
         userConfigManager.setSuffix_space(searchEmailBox.getBackSpaceTail());
         userConfigManager.setReplace_words(searchEmailBox.getSeperator());
         userConfigManager.setDebug_mode(searchEmailBox.isEnableDebug());
+
+        userConfigManager.setDefault_folder(settings.getFolder());
 
         userConfigManager.synchronize();
     }

@@ -22,7 +22,7 @@ public class Settings extends VBox {
     private SettingsListener listener;
 
     public String getFolder() {
-        return folder;
+        return folderText.getText();
     }
 
     public void setFolder(String folder) {
@@ -32,15 +32,15 @@ public class Settings extends VBox {
 
     public String folder;
 
-    public Settings(String folderString) {
-        super();
+    public Settings(double padding) {
+        super(padding);
 
         this.setPadding(new Insets(20, 20, 20, 20));
 
         Label text = new Label("set default saving folder".toUpperCase());
 //        this.getChildren().add(text);
 
-        folderText = new Label(folderString);
+        folderText = new Label();
 //        this.getChildren().add(folderText);
 
 
@@ -51,7 +51,7 @@ public class Settings extends VBox {
         Stage stage = new Stage(StageStyle.DECORATED);
         button.setOnAction((e) -> {
             DirectoryChooser chooser = new DirectoryChooser();
-            chooser.setInitialDirectory(new File(FileHelper.desktopPathWithFileName("")));
+            chooser.setInitialDirectory(new File(folderText.getText()));
             chooser.setTitle("Choose the path to save csv file.");
             File file = chooser.showDialog(stage);
             folderText.setText(file.getAbsolutePath());
@@ -60,7 +60,7 @@ public class Settings extends VBox {
 
         StackPane pane = ComponentFactory.roundCardStackPane(20, text, folderText, button);
 
-        Button saveButton = ComponentFactory.gennerateButton("Save".toUpperCase());
+        JFXButton saveButton = ComponentFactory.gennerateButton("Save".toUpperCase());
 
         this.getChildren().addAll(pane, saveButton);
 
