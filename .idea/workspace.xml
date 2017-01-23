@@ -6,33 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eccacf04-815f-426c-809a-af192368417e" name="Default" comment="firstchange">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/artifacts/crawer_main.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/crawler_main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Crawler/Main.java" afterPath="$PROJECT_DIR$/src/main/java/Crawler/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/UI/Settings.java" afterPath="$PROJECT_DIR$/src/main/java/UI/Settings.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/css/jfoenix-components.css" afterPath="$PROJECT_DIR$/src/main/resources/css/jfoenix-components.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/css/jfoenix-main-demo.css" afterPath="$PROJECT_DIR$/src/main/resources/css/jfoenix-main-demo.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/fxml/Main.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/Main.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/fxml/SideMenu.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/SideMenu.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/fxml/ui/Button.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/ui/Button.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/fxml/ui/Checkbox.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/ui/Checkbox.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/fxml/ui/Combobox.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/ui/Combobox.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/fxml/ui/Dialog.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/ui/Dialog.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/fxml/ui/Icons.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/ui/Icons.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/fxml/ui/ListView.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/ui/ListView.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/fxml/ui/Masonry.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/ui/Masonry.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/fxml/ui/Pickers.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/ui/Pickers.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/fxml/ui/Popup.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/ui/Popup.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/fxml/ui/ProgressBar.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/ui/ProgressBar.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/fxml/ui/RadioButton.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/ui/RadioButton.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/fxml/ui/SVGLoader.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/ui/SVGLoader.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/fxml/ui/Slider.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/ui/Slider.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/fxml/ui/Spinner.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/ui/Spinner.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/fxml/ui/TextField.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/ui/TextField.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/fxml/ui/ToggleButton.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/ui/ToggleButton.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/fxml/ui/TreeTableView.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/ui/TreeTableView.fxml" />
-    </list>
+    <list default="true" id="eccacf04-815f-426c-809a-af192368417e" name="Default" comment="firstchange" />
     <ignored path="crawer.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
