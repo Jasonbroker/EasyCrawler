@@ -6,18 +6,16 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
 import java.util.ArrayList;
+
+import static UI.ComponentFactory.generateRightSwitch;
+import static UI.ComponentFactory.gennerateTextArea;
 
 /**
  * Created by jason on 16/01/2017.
@@ -33,7 +31,7 @@ public class SearchEmailBox extends VBox {
     }
 
     public void setWorking(boolean working) {
-        startButton.setText(working?"停止":"开始");
+        startButton.setText(working ? "STOP" : "START");
         isWorking = working;
     }
 
@@ -47,6 +45,7 @@ public class SearchEmailBox extends VBox {
     JFXTextField textField;
 
     JFXRadioButton precending;
+    JFXRadioButton indexing;
     ToggleGroup toggleGroup;
     private JFXSlider speedSlider;
 
@@ -61,16 +60,15 @@ public class SearchEmailBox extends VBox {
     public SearchEmailBox(double padding) {
 
         super(padding);
-        this.setStyle("-fx-background-color:#FFFFFF;");
         this.setFillWidth(true);
 
         this.setPadding(new Insets(20, 20, 20, 20));
         this.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
-        /**************** 2 ********************/
+        /**************** crawlHint ********************/
         String crawlHint = "the url to crawl, starting with http:";
         Label httpHint = new Label(crawlHint.toUpperCase());
-        this.getChildren().add(httpHint);
+//        this.getChildren().add(httpHint);
 
         text1 = gennerateTextArea(null);
         text1.setPadding(new Insets(0, 0, 0, 0));
@@ -78,14 +76,13 @@ public class SearchEmailBox extends VBox {
         text1.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         text1.setLabelFloat(true);
         VBox.setVgrow(text1, Priority.ALWAYS);
-        this.getChildren().add(text1);
-//        text1.getStyleClass().add("button-like");
+//        this.getChildren().add(text1);
         int minHeight = 40;
+
         /**************** working mode ********************/
         GridPane workingModePane = new GridPane();
         workingModePane.setHgap(10);
         workingModePane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-//        workingModePane.setVgap(20);
         workingModePane.setPadding(new Insets(0, 0, 10, 0));
 
         Label workingModel = new Label("WORK MODE");
@@ -96,7 +93,7 @@ public class SearchEmailBox extends VBox {
         precending.setSelected(true);
         workingModePane.add(precending, 1, 0);
 
-        JFXRadioButton indexing = new JFXRadioButton("INDEXING");
+        indexing = new JFXRadioButton("INDEXING");
         indexing.setSelected(false);
 
         workingModePane.add(indexing, 2, 0);
@@ -139,9 +136,6 @@ public class SearchEmailBox extends VBox {
         speedText.setMinHeight(minHeight);
         workingModePane.add(speedText, 0, 2);
 
-
-//        spinner = new Spinner(0, 100, 10, 1);
-//        spinner.setMaxWidth(100);
         speedSlider = new JFXSlider(1, 50, 10);
         speedSlider.setPrefWidth(100);
         workingModePane.add(speedSlider, 2, 2);
@@ -154,7 +148,7 @@ public class SearchEmailBox extends VBox {
 
         strictModeSwitch = generateRightSwitch();
         workingModePane.add(strictModeSwitch, 2, 3);
-        this.getChildren().add(workingModePane);
+//        this.getChildren().add(workingModePane);
 
         /**************** revise code ********************/
         Label space1 = new Label("PREFIX SPACE ENTER");
@@ -173,23 +167,7 @@ public class SearchEmailBox extends VBox {
         workingModePane.add(backspaceSwitch2, 2, 5);
         backspaceSwitch2.setSelected(false);
 
-//
-//        Label revise = new Label("添加@替换,逗号分隔");
-//        this.getChildren().add(revise);
-//
-//        GridPane reviseCodePane = new GridPane();
-//        reviseCodePane.setHgap(30);
-//        backspaceCheckBox1 = new JFXCheckBox("@前匹配空格或回车");
-//        backspaceCheckBox1.setSelected(false);
-//        reviseCodePane.add(backspaceCheckBox1, 0, 0); //\s*
-//
-//        backspaceCheckBox2 = new JFXCheckBox("@后匹配空格或回车");
-//        backspaceCheckBox2.setSelected(false);
-//        reviseCodePane.add(backspaceCheckBox2, 1, 0); //\s*
-//
-//        this.getChildren().add(reviseCodePane);
-
-
+        /*********************    *********************************/
         sepText = gennerateTextArea(null);
         sepText.setPrefHeight(60);
         sepText.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
@@ -201,26 +179,33 @@ public class SearchEmailBox extends VBox {
 
         saveButton = new JFXButton("save".toUpperCase());
         saveButton.setMinSize(60, 60);
-        saveButton.getStyleClass().add("savebutton-raised");
+        saveButton.getStyleClass().add("save-button");
         saveButton.setDisable(true);
 
         HBox hbox = new HBox(10,sepText, saveButton);
         hbox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         hbox.setPrefWidth(300);
-        this.getChildren().add(hbox);
+//        this.getChildren().add(hbox);
         HBox.setHgrow(sepText, Priority.ALWAYS);
 
         debugModeBox = new JFXCheckBox("DEBUG MODE");
         debugModeBox.setSelected(false);
-        this.getChildren().add(debugModeBox);
+//        this.getChildren().add(debugModeBox);
 
-        startButton = new JFXButton("开始");
-        startButton.setFont(Font.font(18));
-        startButton.setMinWidth(40);
-        startButton.setMaxWidth(Double.MAX_VALUE);
-        startButton.getStyleClass().add("button-raised");
+        startButton = ComponentFactory.gennerateButton("start".toUpperCase());
         VBox.setVgrow(startButton, Priority.ALWAYS);
-        this.getChildren().add(startButton);
+
+        StackPane card = ComponentFactory.roundCardStackPane(20, httpHint, text1, workingModePane, hbox, debugModeBox);
+        VBox.setVgrow(card, Priority.ALWAYS);
+        this.getChildren().addAll(card, startButton);
+
+/***************************************************************************************/
+
+//        Stop[] stops = new Stop[] { new Stop(0, Color.BLACK), new Stop(1, Color.RED) };
+//        LinearGradient lg1 = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, stops);
+//
+//        Rectangle r1 = new Rectangle(0, 0, 100, 100);
+//        r1.setFill(lg1);
 
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -239,81 +224,28 @@ public class SearchEmailBox extends VBox {
         });
 
         workingModePane.setGridLinesVisible(debug);
+        this.getStyleClass().add("background-gradient");
+
     }
-
-    private JFXToggleButton generateRightSwitch() {
-        JFXToggleButton button = new JFXToggleButton();
-        button.setPrefHeight(30);
-        button.setMaxHeight(40);
-        button.setSelected(true);
-        GridPane.setHalignment(button, HPos.RIGHT);
-        GridPane.setMargin(button, new Insets(-5, -15, -5, 0));
-        return button;
-    }
-
-    private JFXTextArea gennerateTextArea(String string) {
-        JFXTextArea textArea = new JFXTextArea(string);
-        textArea.setUnFocusColor(Color.color(0.1, 0.1, 0.1, 0.1));
-        textArea.setFocusColor(MetaDataHelper.appThemeColor());
-        textArea.setWrapText(true);
-        return textArea;
-    }
-
-    private VBox lineWithTitleAndSwitch(String title) {
-        JFXToggleButton button = new JFXToggleButton();
-        button.setPrefHeight(30);
-        button.setMaxHeight(40);
-        VBox box = lineWithTitleAndParent(title, button);
-        GridPane.setMargin(button, new Insets(-5, -15, -5, 0));
-        return box;
-    }
-
-    private VBox lineWithTitleAndParent(String string, Parent parent) {
-        GridPane lineContents = new GridPane();
-
-        Label text = new Label(string.toUpperCase());
-        text.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        lineContents.add(text, 0, 0);
-        lineContents.add(parent, 1, 0);
-        lineContents.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-
-        GridPane.setHalignment(text, HPos.LEFT);
-        GridPane.setHalignment(parent, HPos.RIGHT);
-        lineContents.setGridLinesVisible(true);
-        VBox box = new VBox(lineContents);
-        box.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        box.setFillWidth(true);
-        return box;
-    }
-
-    private GridPane gridPanelineWithTitleAndParent(String string, Parent parent) {
-        GridPane lineContents = new GridPane();
-
-        Label text = new Label(string.toUpperCase());
-        text.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        lineContents.add(text, 0, 0);
-        lineContents.add(parent, 1, 0);
-        lineContents.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-
-        GridPane.setHalignment(text, HPos.LEFT);
-        GridPane.setHalignment(parent, HPos.RIGHT);
-        lineContents.setGridLinesVisible(true);
-
-        return lineContents;
-    }
-
 
     public void addCLickLisener(SearchEmailBoxListener searchEmailBoxListener) {
         listener = searchEmailBoxListener;
     }
 
-
+    public void setUrl(String text) {
+        text1.setText(text);
+    }
     public String getUrl() {
         return text1.getText().trim();
     }
 
-    public boolean getWorkingMode() {
-        return precending.isSelected();
+    public int getWorkingMode() {
+        return precending.isSelected() ? 0 : 1;
+    }
+
+    public void setWorkMode(int workmode) {
+        precending.setSelected(workmode == 0);
+        indexing.setSelected(workmode == 1);
     }
 
     public int getStartIndex() {
@@ -326,12 +258,24 @@ public class SearchEmailBox extends VBox {
         return Integer.valueOf(list.get(1));
     }
 
+    public void setstartEndIndex(int start, int end) {
+        textField.setText(start + "," + end);
+    }
+
     public int getThreadNum() {
         return (int) speedSlider.getValue();
     }
 
+    public void setThreadNum(int num) {
+        speedSlider.setValue(num);
+    }
+
     public boolean enableStrictMode() {
         return strictModeSwitch.isSelected();
+    }
+
+    public void setStrictMode(boolean enable) {
+        strictModeSwitch.setSelected(enable);
     }
 
     public void setSeperator(String string) {
@@ -348,6 +292,14 @@ public class SearchEmailBox extends VBox {
 
     public boolean getBackSpaceTail() {
         return backspaceSwitch2.isSelected();
+    }
+
+    public void setEnableSpaceHead(boolean enable) {
+        backspaceSwitch1.setSelected(enable);
+    }
+
+    public void setEnableSpaceTrail(boolean enable) {
+        backspaceSwitch2.setSelected(enable);
     }
 
     public boolean isEnableDebug() {

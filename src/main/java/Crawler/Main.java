@@ -4,6 +4,7 @@ package Crawler; /**
 
 import Helper.FileHelper;
 import Helper.MetaDataHelper;
+import Helper.UserConfigManager;
 import UI.*;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
@@ -43,6 +44,8 @@ public class Main extends Application implements SpiderListener {
     TabPane tabPane;
     SearchEmailBox searchEmailBox;
     SearchDomainBox searchDomainBox;
+    Settings settings;
+    private UserConfigManager userConfigManager;
 
     public static void main(String[] args) {
         launch(args);
@@ -53,15 +56,9 @@ public class Main extends Application implements SpiderListener {
         // 创建UI
         createUI(primaryStage);
 
-        String path = FileHelper.pathInCodeFolder("config.txt");
-        System.out.println("loading config file at "+ path);
+        userConfigManager = new UserConfigManager();
 
-        String ats = null;
-        try {
-            ats = FileHelper.readFileByLines(path);
-        } catch (IOException e) {
-        }
-        searchEmailBox.setSeperator(ats);
+        this.bindData();
 
         searchEmailBox.addCLickLisener(new SearchEmailBoxListener() {
             @Override
@@ -81,11 +78,7 @@ public class Main extends Application implements SpiderListener {
             }
 
             public void saveButtonPressedWithText(String string) {
-                try {
-                    FileHelper.writeToConfigFile(string);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                saveData();
             }
         });
 
@@ -107,6 +100,10 @@ public class Main extends Application implements SpiderListener {
             }
         });
 
+        settings.addCLickLisener(() -> {
+            saveData();
+        });
+
     }
 
     private boolean stopP () {
@@ -125,11 +122,11 @@ public class Main extends Application implements SpiderListener {
                 return false;
             }
             if (!url.startsWith("http")) {
-                this.showAlertWithMessage("URL ERROR", "Please enter the right web url, which is prefixed with http://");
+                this.showAlertWithMessage("URL ERROR", "Please enter the right web url, which is prefixed with http:// ");
                 return false;
             }
             ///////////////////////////////////////////////
-            ArrayList keywords = searchDomainBox.getKeywords();
+            ArrayList keywords = MetaDataHelper.getKeywords(searchDomainBox.getKeywords());
             if (keywords.isEmpty()) {
                 showAlertWithMessage("ERROR", "Please enter the right web url, which is prefixed with http://");
                 return false;
@@ -180,7 +177,7 @@ public class Main extends Application implements SpiderListener {
                 threadNum = 1;
             }
 
-            boolean workingMode = searchEmailBox.getWorkingMode();
+            int workingMode = searchEmailBox.getWorkingMode();
             int startIndex = searchEmailBox.getStartIndex();
             int endIndex = searchEmailBox.getEndIndex();
             boolean strictMode = searchEmailBox.enableStrictMode();
@@ -188,11 +185,11 @@ public class Main extends Application implements SpiderListener {
             System.out.println("custom seperator:"+ats);
             //////////////////////////////////////////////////////////////////////////////////////
 
-            EmailPageProcessor pageProcessor = new EmailPageProcessor(false, searchEmailBox.getBackSpaceHead(), searchEmailBox.getBackSpaceTail());
+            EmailPageProcessor pageProcessor = new EmailPageProcessor(false, searchEmailBox.getBackSpaceHead(), searchEmailBox.getBackSpaceTail(), searchEmailBox.isEnableDebug());
             spider = Spider.create(pageProcessor);
 
             ArrayList urls = new ArrayList();
-            if (workingMode) {
+            if (workingMode == 0) {
                 spider.addUrl(url);
             }else  {
 
@@ -314,26 +311,22 @@ public class Main extends Application implements SpiderListener {
     private void createUI(Stage primaryStage) {
 
         searchEmailBox = getSearchEmailBox();
-        Tab searchEmailPan = new Tab("Email", searchEmailBox);
+        Tab searchEmailPan = new Tab(" Email ", searchEmailBox);
         searchEmailPan.setClosable(false);
 
         searchDomainBox = getSearchDomainBox();
-        Tab domainSearchTab = new Tab("Keyword", searchDomainBox);
+        Tab domainSearchTab = new Tab(" Keywords ", searchDomainBox);
         domainSearchTab.setClosable(false);
 
-        Settings settings = new Settings();
-        Tab settingTab = new Tab("Setting", settings);
+        settings = new Settings("");
+        Tab settingTab = new Tab(" Setting ", settings);
         settingTab.setClosable(false);
 
         tabPane = new JFXTabPane();
         tabPane.setTabMinHeight(44);
         ZCTabPaneSkin skin = new ZCTabPaneSkin(tabPane);
-        skin.setDefaultColor(MetaDataHelper.appThemeColor());
         tabPane.setSkin(skin);
 
-
-        String style = tabPane.getStyle();
-        System.out.print("******" + style);
         tabPane.getTabs().addAll(searchEmailPan, domainSearchTab, settingTab);
         StackPane pane = new StackPane(tabPane);
         motherPane = pane;
@@ -344,6 +337,37 @@ public class Main extends Application implements SpiderListener {
         scene.getStylesheets().add(str);
         primaryStage.setTitle("网站信息提取系统");
         primaryStage.show();
+    }
+
+    private void bindData() {
+        searchEmailBox.setUrl(userConfigManager.getEmail_url());
+        searchEmailBox.setWorkMode(userConfigManager.getWork_mode());
+        searchEmailBox.setThreadNum(userConfigManager.getCrawl_speed());
+        searchEmailBox.setstartEndIndex(userConfigManager.getIndex_start(), userConfigManager.getIndex_end());
+        searchEmailBox.setStrictMode(userConfigManager.isStrict_mode());
+        searchEmailBox.setEnableSpaceHead(userConfigManager.isPrefix_space());
+        searchEmailBox.setEnableSpaceTrail(userConfigManager.isSuffix_space());
+        searchEmailBox.setSeperator(userConfigManager.getReplace_words());
+        searchEmailBox.setDebugEnabled(userConfigManager.isDebug_mode());
+
+        settings.setFolder(userConfigManager.getDefault_folder());
+
+    }
+
+    private void saveData() {
+        userConfigManager.setEmail_url(searchEmailBox.getUrl());
+        userConfigManager.setWork_mode(searchEmailBox.getWorkingMode());
+        userConfigManager.setCrawl_speed(searchEmailBox.getThreadNum());
+
+        userConfigManager.setIndex_start(searchEmailBox.getStartIndex());
+        userConfigManager.setIndex_end(searchEmailBox.getEndIndex());
+        userConfigManager.setStrict_mode(searchEmailBox.enableStrictMode());
+        userConfigManager.setPrefix_space(searchEmailBox.getBackSpaceHead());
+        userConfigManager.setSuffix_space(searchEmailBox.getBackSpaceTail());
+        userConfigManager.setReplace_words(searchEmailBox.getSeperator());
+        userConfigManager.setDebug_mode(searchEmailBox.isEnableDebug());
+
+        userConfigManager.synchronize();
     }
 
     SearchDomainBox getSearchDomainBox() {

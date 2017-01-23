@@ -22,6 +22,7 @@ public class EmailPageProcessor implements PageProcessor {
 
     private boolean backspaceHead;
     private boolean backspaceTail;
+    private boolean debugEnabled;
 
     public boolean strict = false;
     public String[] operators;
@@ -29,14 +30,16 @@ public class EmailPageProcessor implements PageProcessor {
     public int maxDepth = 1;
 
     public EmailPageProcessor(boolean strict) {
+        super();
         this.strict = strict;
     }
 
-    public EmailPageProcessor(boolean strict, boolean backspaceHead, boolean backspaceTail) {
+    public EmailPageProcessor(boolean strict, boolean backspaceHead, boolean backspaceTail, boolean debugEnabled) {
         super();
         this.strict = strict;
         this.backspaceHead = backspaceHead;
         this.backspaceTail = backspaceTail;
+        this.debugEnabled = debugEnabled;
     }
 
     @Override
@@ -50,8 +53,9 @@ public class EmailPageProcessor implements PageProcessor {
 
         System.out.println("depth: " + depth);
         String emailRex = "[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
-
-        //System.out.print(page.getHtml().toString());
+        if (debugEnabled) {
+            System.out.print(page.getHtml().toString());
+        }
         boolean special = false;
         if (page.getHtml().toString().contains("x40")) {
             emailRex = "\'(.*)@(.*)\'";

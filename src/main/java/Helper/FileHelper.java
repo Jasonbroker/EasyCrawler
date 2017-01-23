@@ -1,7 +1,9 @@
 package Helper;
 
 import java.io.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 import static java.io.File.separator;
 
@@ -11,6 +13,7 @@ import static java.io.File.separator;
 public class FileHelper {
 
     static PrintWriter printWriter;
+    // 用户配置文件名
     final static String USERINFO_FILENAME = "userinfo.config";
     public static String jarPath() {
         return FileHelper.class.getProtectionDomain().getCodeSource().getLocation().getPath();
@@ -42,42 +45,40 @@ public class FileHelper {
 //        }
 //    }
 
-    public void writeObject() {
+    public static void saveUserConfig(Map map) {
+        writeObject(map, pathInCodeFolder(USERINFO_FILENAME));
+    }
+
+    public static HashMap<String, String> readConfig() {
+        return readObject(pathInCodeFolder(USERINFO_FILENAME));
+    }
+
+    public static void writeObject(Map map, String path) {
         try {
-            Map<String, Object> map1 = new HashMap<String, Object>();
-            map1.put("a1", "a-aaa");
-            map1.put("a2", "a-bbb");
-
-            Map<String, Object> map2 = new HashMap<String, Object>();
-            map2.put("b1", "b-aaa");
-            map2.put("b2", "b-bbb");
-
-            List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-            list.add(map1);
-            list.add(map2);
-            FileOutputStream outStream = new FileOutputStream("E:/1.txt");
+            FileOutputStream outStream = new FileOutputStream(path);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(
                     outStream);
 
-            objectOutputStream.writeObject(list);
+            objectOutputStream.writeObject(map);
             outStream.close();
-            System.out.println("successful");
+            System.out.println("save successful");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void readObject() {
+    public static HashMap<String, String> readObject(String path) {
         FileInputStream freader;
+//        HashMap<String, String> map = null;
         try {
-            freader = new FileInputStream("E:/1.txt");
+            freader = new FileInputStream(path);
             ObjectInputStream objectInputStream = new ObjectInputStream(freader);
-            HashMap<String, Object> map = new HashMap<String, Object>();
+//            HashMap<String, String> map = new HashMap<String, String>();
 
-            List<Map<String, Object>> list = (List<Map<String, Object>>) objectInputStream.readObject();
-            for (Map<String, Object> map2 : list) {
-                System.out.println(map2.toString());
-            }
+//            List<Map<String, Object>> list = (List<Map<String, Object>>) objectInputStream.readObject();
+            HashMap<String, String> map = (HashMap<String, String>) objectInputStream.readObject();
+            return map;
+
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -88,7 +89,7 @@ public class FileHelper {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
+        return null;
     }
 
     public static String desktopPathWithFileName(String filename) {

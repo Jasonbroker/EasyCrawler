@@ -1,5 +1,6 @@
 package UI;
 
+import Helper.MetaDataHelper;
 import com.jfoenix.controls.JFXRippler;
 import com.jfoenix.effects.JFXDepthManager;
 import com.jfoenix.svg.SVGGlyph;
@@ -81,8 +82,8 @@ public class ZCTabPaneSkin extends BehaviorSkinBase<TabPane, TabPaneBehavior> {
         this.tempLabelColor = tempLabelColor;
     }
 
-    private Color defaultColor = Color.valueOf("#00ff00"), ripplerColor = Color.valueOf("#ff00ff"), selectedTabText = Color.WHITE, tempLabelColor = Color.WHITE;
-
+    private Color defaultColor = Color.valueOf("#00ff00"), ripplerColor = MetaDataHelper.appThemeDarkerColor(), selectedTabText = Color.valueOf("#FFFFFFFF"), tempLabelColor = Color.valueOf("#FFFFFF50");
+    ;
     private ZCTabPaneSkin.HeaderContainer headerContainer;
     private ObservableList<ZCTabPaneSkin.TabContentHolder> tabContentHolders;
     private Rectangle tabPaneClip;
@@ -739,7 +740,7 @@ public class ZCTabPaneSkin extends BehaviorSkinBase<TabPane, TabPaneBehavior> {
             }
 
             if (tab.isSelected()) tabText.setTextFill(selectedTabText);
-            else tabText.setTextFill(tempLabelColor.deriveColor(0, 0, 0.9, 1));
+            else tabText.setTextFill(tempLabelColor);
 
 
             tabText.textFillProperty().addListener((o, oldVal, newVal) -> {
@@ -748,11 +749,10 @@ public class ZCTabPaneSkin extends BehaviorSkinBase<TabPane, TabPaneBehavior> {
 
             tab.selectedProperty().addListener((o, oldVal, newVal) -> {
                 systemChange = true;
-                if (newVal) tabText.setTextFill(tempLabelColor);
-                else tabText.setTextFill(tempLabelColor.deriveColor(0, 0, 0.9, 1));
+                if (newVal) tabText.setTextFill(selectedTabText);
+                else tabText.setTextFill(tempLabelColor);
                 systemChange = false;
             });
-
 
             listener.registerChangeListener(tab.selectedProperty(), "SELECTED");
             listener.registerChangeListener(tab.textProperty(), "TEXT");

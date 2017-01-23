@@ -18,7 +18,7 @@ public class MetaDataHelper {
                 if (StringUtil.isBlank(innerString)) {
                     continue;
                 }
-                arrayList.add(string.trim());
+                arrayList.add(innerString.trim());
             }
         } else {
             return null;
@@ -26,8 +26,24 @@ public class MetaDataHelper {
         return arrayList;
     }
 
-    public static Color appThemeColor() {
-//        return Color.color(0.1,0.1,0.1,0.1);
-        return Color.GREEN;
+    public static Color appThemeDarkerColor() {
+        return Color.valueOf(appThemeDarkerColorString());
     }
+
+    public static Color appThemeLighterColor() {
+        return Color.valueOf(appThemeLighterColorString());
+    }
+
+    public static String appThemeDarkerColorString() {
+        return "#A068F9";
+    }
+
+    public static String appThemeLighterColorString() {
+        return "#9A9AF4";
+    }
+
+    public static String appThemeBackGroundColor() {
+        return "-fx-background-color:" + "#A068F9";
+    }
+
 }
