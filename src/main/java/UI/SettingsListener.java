@@ -6,4 +6,6 @@ package UI;
 public interface SettingsListener {
 
     void saveButtonClicked();
+
+    void readmeButtonClicked();
 }

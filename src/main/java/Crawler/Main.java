@@ -9,6 +9,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXTabPane;
+import com.sun.deploy.uitoolkit.impl.fx.HostServicesFactory;
+import com.sun.javafx.application.HostServicesDelegate;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -98,11 +100,19 @@ public class Main extends Application implements SpiderListener {
             }
         });
 
-        settings.addCLickLisener(() -> {
-            saveData();
-            showAlertWithMessage("SETTING", "Settings saved!");
-        });
+        HostServicesDelegate hostServices = HostServicesFactory.getInstance(this);
+        settings.addCLickLisener(new SettingsListener() {
+            @Override
+            public void saveButtonClicked() {
+                saveData();
+                showAlertWithMessage("SETTING", "Settings saved!");
+            }
 
+            @Override
+            public void readmeButtonClicked() {
+                hostServices.showDocument("https://github.com/Jasonbroker/emailcrawler/wiki/Emailcrawlersystem");
+            }
+        });
     }
 
     private boolean stopP () {
