@@ -1,5 +1,6 @@
 package UI;
 
+import Helper.FileHelper;
 import com.jfoenix.controls.JFXButton;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -24,6 +25,10 @@ public class Settings extends VBox {
     }
 
     public void setFolder(String folder) {
+        File folderFile = new File(folder);
+        if (!folderFile.isDirectory()) {
+            folder = FileHelper.desktopPathWithFileName("");
+        }
         this.folder = folder;
         folderText.setText(folder);
     }
@@ -41,10 +46,7 @@ public class Settings extends VBox {
         folderText = new Label();
 //        this.getChildren().add(folderText);
 
-        File folderFile = new File(folderText.getText());
-        if (!folderFile.isDirectory()) {
 
-        }
 
 
         JFXButton button = new JFXButton("Choose".toUpperCase());
@@ -65,8 +67,12 @@ public class Settings extends VBox {
             this.listener.readmeButtonClicked();
         });
 
+        JFXButton reset = new JFXButton("reset".toUpperCase());
+        reset.setOnAction((e) -> {
+            this.listener.resetButtonClicked();
+        });
 
-        StackPane pane = ComponentFactory.roundCardStackPane(20, text, folderText, button, readme);
+        StackPane pane = ComponentFactory.roundCardStackPane(20, text, folderText, button, readme, reset);
 
         JFXButton saveButton = ComponentFactory.gennerateButton("Save".toUpperCase());
 

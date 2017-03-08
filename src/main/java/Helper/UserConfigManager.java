@@ -197,7 +197,27 @@ public class UserConfigManager {
 
         FileHelper.saveUserConfig(hashMap);
 
+    }
 
+    public void reset() {
+        HashMap hashMap = new HashMap(12);
+        hashMap.put(EMAIL_URL, "");
+        hashMap.put(WORK_MODE, "");
+        hashMap.put(INDEXING_first, "");
+        hashMap.put(INDEXING_END, "");
+        hashMap.put(Crawl_speed, "");
+        hashMap.put(Strict_mode, "");
+        hashMap.put(Prefix_space, "");
+        hashMap.put(Suffix_space, "");
+        hashMap.put(Replace_words, "");
+        hashMap.put(Debug_mode, "");
+
+        hashMap.put(DOMAIN_URL, "");
+        hashMap.put(DOMAIN_KEYWORDS, "");
+
+        hashMap.put(DEFAULT_FOLDER, "");
+
+        FileHelper.saveUserConfig(hashMap);
     }
 
 }

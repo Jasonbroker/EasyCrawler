@@ -8,4 +8,6 @@ public interface SettingsListener {
     void saveButtonClicked();
 
     void readmeButtonClicked();
+
+    void resetButtonClicked();
 }

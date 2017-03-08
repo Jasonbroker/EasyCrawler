@@ -112,6 +112,12 @@ public class Main extends Application implements SpiderListener {
             public void readmeButtonClicked() {
                 hostServices.showDocument("https://github.com/Jasonbroker/emailcrawler/wiki/Emailcrawlersystem");
             }
+
+            @Override
+            public void resetButtonClicked() {
+                userConfigManager.reset();
+                System.exit(0);
+            }
         });
     }
 

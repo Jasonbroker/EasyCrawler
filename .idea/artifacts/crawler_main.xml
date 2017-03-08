@@ -12,7 +12,7 @@
       </options>
     </properties>
     <root id="root">
-      <element id="archive" name="crawer_main.jar">
+      <element id="archive" name="crawler.jar">
         <element id="dir-copy" path="$PROJECT_DIR$/src/main/resources" />
         <element id="module-output" name="crawer_main" />
         <element id="directory" name="libs">
