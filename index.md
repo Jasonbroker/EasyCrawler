@@ -34,6 +34,11 @@ just double click the jar file named `crawler_main.jar`(might varied in differen
 #### Email Setting
  
  ![MacDown Screenshot](./ScreenShots/preview3.png)
+ 
+The email(or anything you like if keyword is customized) will be generated on the Desktop(as default, you can change the directory in setting) with a the website’s url and a path extention `.csv.` e.g. `baidu.com.csv`.
+This fill could be opened by excel(or some other supported office software).
+
+[How to read the file.csv with column and lines on excel in Windows](http://jingyan.baidu.com/article/76a7e409bf9a3ffc3b6e1535.html)
 
 ## FAQ
 
