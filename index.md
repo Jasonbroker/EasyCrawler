@@ -3,7 +3,7 @@ layout: default
 ---
 # Email Crawler
 
-*The email crawler is a modern designed GUI crawler to batch fetch useful infomation on the website. Not only for emails but other keywords are also supported.*
+*The email crawler is a modern designed GUI crawler for batch fetching useful infomation on the website. Not only for emails but other keywords are also supported.*
 
 ## Usage
 
