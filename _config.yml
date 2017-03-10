@@ -1,5 +1,8 @@
-title: Cayman theme
-description: Cayman is a clean, responsive theme for GitHub Pages.
+title: Email Crawler
+description: Email Crawler is a clean, lightweight, easy handling software for resource seekers.
 show_downloads: true
+github.tar_url: https://github.com/Jasonbroker/emailcrawler/releases/latest
+github.zip_url: https://github.com/Jasonbroker/emailcrawler/releases/latest
+github.repository_url: https://github.com/Jasonbroker/emailcrawler
 google_analytics:
 theme: 
