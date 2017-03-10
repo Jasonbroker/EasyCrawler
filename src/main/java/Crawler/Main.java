@@ -3,6 +3,7 @@ package Crawler; /**
  */
 
 import Helper.MetaDataHelper;
+import Helper.UpdateChecker;
 import Helper.UserConfigManager;
 import UI.*;
 import com.jfoenix.controls.JFXButton;
@@ -110,7 +111,7 @@ public class Main extends Application implements SpiderListener {
 
             @Override
             public void readmeButtonClicked() {
-                hostServices.showDocument("https://github.com/Jasonbroker/emailcrawler/wiki/Emailcrawlersystem");
+                hostServices.showDocument("https://jasonbroker.github.io/emailcrawler/");
             }
 
             @Override
@@ -119,6 +120,8 @@ public class Main extends Application implements SpiderListener {
                 System.exit(0);
             }
         });
+
+//        UpdateChecker.checkUpate();
     }
 
     private boolean stopP () {

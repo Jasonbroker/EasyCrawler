@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="crawler.jar" size="541387" download="eager" />
+    <jar href="crawler.jar" size="542945" download="eager" />
     <jar href="libs/assertj-core-1.5.0.jar" size="576338" download="eager" />
     <jar href="libs/commons-codec-1.9.jar" size="263965" download="eager" />
     <jar href="libs/commons-collections-3.2.1.jar" size="575389" download="eager" />
