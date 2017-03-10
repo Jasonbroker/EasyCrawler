@@ -1,123 +1,46 @@
 ---
 layout: default
 ---
+# Email Crawler
 
-Text can be **bold**, _italic_, or ~~strikethrough~~.
+*The email crawler is a modern designed GUI crawler to batch fetch useful infomation on the website. Not only for emails but other keywords are also supported.*
 
-[Link to another page](another-page).
+## Usage
 
-There should be whitespace between paragraphs.
+This project is developed in java, which need jvm installed. JRE [Download here](https://www.java.com/en/download/manual.jsp) and select the right package.
 
-There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.
+###Kick it start:
+#####For windows:
+Double click the file named `start from here.bat`, It will call a black window out and a GUI software followed.
+#####For Mac and linux:
+just double click the jar file named `crawler_main.jar`(might varied in different version).
 
-# [](#header-1)Header 1
+###Make it work:
+ It contains 3 sections of function zone.
 
-This is a normal paragraph following a header. GitHub is a code hosting platform for version control and collaboration. It lets you and others work together on projects from anywhere.
+####Email crawler
+ 
+ ![MacDown Screenshot](./ScreenShots/preview1.png)
+####Keyword crawler 
+ 
+ ![MacDown Screenshot](./ScreenShots/preview2.png)
+####Email Setting
+ 
+ ![MacDown Screenshot](./ScreenShots/preview3.png)
 
-## [](#header-2)Header 2
+## FAQ
 
-> This is a blockquote following a header.
->
-> When something is important enough, you do it even if the odds are not in your favor.
+## Roadmap
 
-### [](#header-3)Header 3
+See the [open issues](https://github.com/pages-themes/cayman/issues) for a list of proposed features (and known issues).
 
-```js
-// Javascript code with syntax highlighting.
-var fun = function lang(l) {
-  dateformat.i18n = require('./lang/' + l)
-  return true;
-}
-```
+## Project philosophy
 
-```ruby
-# Ruby code with syntax highlighting
-GitHubPages::Dependencies.gems.each do |gem, version|
-  s.add_dependency(gem, "= #{version}")
-end
-```
+email crawler is intended to make those people who need to find information's life easier. Thanks a lot to my friend *Li xu*, who strongly supported and supporting on this project. It should look great, but that goes without saying.
 
-#### [](#header-4)Header 4
+## Contributing
 
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
+Interested in contributing? We'd love your help. Cayman is an open source project, built one contribution at a time by users like you. See [the CONTRIBUTING file](CONTRIBUTING.md) for instructions on how to contribute.
 
-##### [](#header-5)Header 5
-
-1.  This is an ordered list following a header.
-2.  This is an ordered list following a header.
-3.  This is an ordered list following a header.
-
-###### [](#header-6)Header 6
-
-| head1        | head two          | three |
-|:-------------|:------------------|:------|
-| ok           | good swedish fish | nice  |
-| out of stock | good and plenty   | nice  |
-| ok           | good `oreos`      | hmm   |
-| ok           | good `zoute` drop | yumm  |
-
-### There's a horizontal rule below this.
-
-* * *
-
-### Here is an unordered list:
-
-*   Item foo
-*   Item bar
-*   Item baz
-*   Item zip
-
-### And an ordered list:
-
-1.  Item one
-1.  Item two
-1.  Item three
-1.  Item four
-
-### And a nested list:
-
-- level 1 item
-  - level 2 item
-  - level 2 item
-    - level 3 item
-    - level 3 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-
-### Small image
-
-![](https://assets-cdn.github.com/images/icons/emoji/octocat.png)
-
-### Large image
-
-![](https://guides.github.com/activities/hello-world/branching.png)
-
-
-### Definition lists can be used with HTML syntax.
-
-<dl>
-<dt>Name</dt>
-<dd>Godzilla</dd>
-<dt>Born</dt>
-<dd>1952</dd>
-<dt>Birthplace</dt>
-<dd>Japan</dd>
-<dt>Color</dt>
-<dd>Green</dd>
-</dl>
-
-```
-Long, single-line code blocks should not wrap. They should horizontally scroll if they are too long. This line should be long enough to demonstrate this.
-```
-
-```
-The final element.
-```
+##Contact infomation
+If you have any further question, please feel free to mail me or add my wechat `Zhou_zhengchang`.
