@@ -66,7 +66,7 @@ public class SearchEmailBox extends VBox {
         this.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
         /**************** crawlHint ********************/
-        String crawlHint = "the url to crawl, starting with http:";
+        String crawlHint = "the url to crawl, start with http:";
         Label httpHint = new Label(crawlHint.toUpperCase());
 //        this.getChildren().add(httpHint);
 
