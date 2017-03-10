@@ -62,7 +62,7 @@ public class Settings extends VBox {
             layout();
         });
 
-        JFXButton readme = new JFXButton("read me".toUpperCase());
+        JFXButton readme = new JFXButton("read me and instructions".toUpperCase());
         readme.setOnAction((e) -> {
             this.listener.readmeButtonClicked();
         });
