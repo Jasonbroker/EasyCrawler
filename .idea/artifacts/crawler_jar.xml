@@ -1,0 +1,23 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" build-on-make="true" name="crawler:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/crawlerApp</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="com.company.ScrawerUI" />
+        <option name="description" value="" />
+        <option name="htmlParamFile" value="" />
+        <option name="paramFile" value="" />
+        <option name="title" value="scrawler" />
+        <option name="vendor" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="crawler.jar">
+        <element id="module-output" name="crawler" />
+      </element>
+      <element id="directory" name="libs">
+        <element id="dir-copy" path="$PROJECT_DIR$/libs" />
+      </element>
+    </root>
+  </artifact>
+</component>

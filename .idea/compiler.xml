@@ -20,7 +20,6 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="crawer_main" target="1.8" />
-      <module name="crawer_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/crawer.iml" filepath="$PROJECT_DIR$/.idea/modules/crawer.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/crawer_main.iml" filepath="$PROJECT_DIR$/.idea/modules/crawer_main.iml" group="crawer" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/crawer_test.iml" filepath="$PROJECT_DIR$/.idea/modules/crawer_test.iml" group="crawer" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/crawler.iml" filepath="$PROJECT_DIR$/crawler.iml" />
+>>>>>>> 965b1a433d659f4b02eb6913d9eada2f969f83a8
     </modules>
   </component>
 </project>
