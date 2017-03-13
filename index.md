@@ -36,25 +36,43 @@ Double click the jar file named `crawler_main.jar`(might vary in different versi
  5. prefix and sufix space and enter is recommonded commonly. This will avoid some common problems which might lead to crawling failure.
  6. The replacement area is the key feature in the software. You can customize keyword to crawl revealed great extention ablity. In some web page `@` is replaced by `[@]`, `[#]`, etc to avoid crawling, but here we can use this feature to replace the `@`. Just type in the keywords even `@` image: `[@],[#],<image='./at.jpeg'>` seperated by comma, all these email types can be recorded well.
  7. Debug mode is for mac, windows can see the debug infomation on the black concle.
+ 8. Press the start button to start. It will automatically stop when finished.
  
 #### Keyword crawler 
  
  ![MacDown Screenshot](./ScreenShots/preview2.png)
+ 
+ This feature is more valuable than the others. Using this feature in proper way can reduce your work load greatly.
+ It can search all relavent urls containing the keywords, helping you locate target painlessly.
  
 #### Email Setting
  
  ![MacDown Screenshot](./ScreenShots/preview3.png)
  
  1. Select the place to save ur file!
- 2. Read me contains EVEY IMPORTANT information, please go through it.
- 3. Don't forget to press save!
+ 2. Read me contains **VERY IMPORTANT** information, please go through it.
+ 3. Don't forget to press Save.
+ 
+#### Getting the product
  
 The email(or anything you like if keyword is customized) will be generated on the Desktop(as default, you can change the directory in setting) with a the website’s url and a path extention `.csv.` e.g. `baidu.com.csv`.
-This fill could be opened by excel(or some other supported office software).
-
-[How to read the file.csv with column and lines on excel in Windows](http://jingyan.baidu.com/article/76a7e409bf9a3ffc3b6e1535.html)
+The cells is seperated by comma and could be opened by excel(or some other supported office software).
+[How to read the `file.csv` with column and lines on excel in Windows](http://jingyan.baidu.com/article/76a7e409bf9a3ffc3b6e1535.html)
 
 ## FAQ
+
+1. Could it run on my mac, windows or Linux?
+Yes. It is based on Java cross platform. Running on Android is also supported, but never try it on iOS devices.
+2. I click the `.bat` file, then the black window said some error.
+Most likely you forget install the java JRE.
+3. Will this software charge?
+NO. It is for free at all. No lock feature.
+4. Developing Plan?
+There is no developing plan. All version is build for specific demand.
+5. How could I reset the settings?
+All settings is stored in the software folder. Deleting the `.config` file shall work.
+6. How to report bugs?
+Open an [issue](https://github.com/Jasonbroker/emailcrawler/issues/new) for me. I will fix it ASAP.
 
 ## Roadmap
 
