@@ -9,15 +9,17 @@ layout: default
 
 This project is developed in java, which need jvm installed. JRE [Download here](https://www.java.com/en/download/manual.jsp) and select the right package.
 
-### Kick it start:
+### Kick to start
 
-##### For windows:
+Note that unzip is always the first step after the zip package has been downloaded.
 
-Double click the file named `start from here.bat`, It will call a black window out and a GUI software followed.
+##### For Windows:
+
+Double click the file named `start_from_here.bat`, It will call a black window out and a GUI software will be opened then.
 
 ##### For Mac and linux:
 
-just double click the jar file named `crawler_main.jar`(might varied in different version).
+Double click the jar file named `crawler_main.jar`(might vary in different version).
 
 ### Make it work:
 
@@ -27,6 +29,14 @@ just double click the jar file named `crawler_main.jar`(might varied in differen
  
  ![MacDown Screenshot](./ScreenShots/preview1.png)
  
+ 1. Type in the root url or it's links which contains the email info mation.
+ 2. The url is 2 types: normal type and indexing. normal one is normal as it is. The indexing url is like `http://abc.com/web?studentpage=1`. The number `1` could be replaced by other number and then we can see the other pages there. the max number is always shown on the page.
+ 3. Crawl speed is the thread number of crawling. Under 100 is safe, while over that value might lead to lagging.
+ 4.  The inner hyper link will never be fetched so that `strict mode` is very useful for speed up crawling. But if you need to crawl links in the web page, the crawling mode should be closed.
+ 5. prefix and sufix space and enter is recommonded commonly. This will avoid some common problems which might lead to crawling failure.
+ 6. The replacement area is the key feature in the software. You can customize keyword to crawl revealed great extention ablity. In some web page `@` is replaced by `[@]`, `[#]`, etc to avoid crawling, but here we can use this feature to replace the `@`. Just type in the keywords even `@` image: `[@],[#],<image='./at.jpeg'>` seperated by comma, all these email types can be recorded well.
+ 7. Debug mode is for mac, windows can see the debug infomation on the black concle.
+ 
 #### Keyword crawler 
  
  ![MacDown Screenshot](./ScreenShots/preview2.png)
@@ -34,6 +44,10 @@ just double click the jar file named `crawler_main.jar`(might varied in differen
 #### Email Setting
  
  ![MacDown Screenshot](./ScreenShots/preview3.png)
+ 
+ 1. Select the place to save ur file!
+ 2. Read me contains EVEY IMPORTANT information, please go through it.
+ 3. Don't forget to press save!
  
 The email(or anything you like if keyword is customized) will be generated on the Desktop(as default, you can change the directory in setting) with a the website’s url and a path extention `.csv.` e.g. `baidu.com.csv`.
 This fill could be opened by excel(or some other supported office software).
