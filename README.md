@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-# [Email Crawler](https://jasonbroker.github.io/emailcrawler/)
+# [Email Crawler](https://jasonbroker.github.io/EasyCrawler/)
 
 *The email crawler is a modern designed GUI crawler for batch fetching useful infomation on the website. Not only for emails but other keywords are also supported.*
 
